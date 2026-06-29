@@ -12,7 +12,7 @@ const EducationTimeline = () => {
       description: 'Acquiring deep foundations in Computer Science, algorithms, systems, and specializing in Data Science & Machine Learning pipelines.',
       metrics: [
         { label: 'Cumulative GPA', value: '8.13 / 10', icon: <Percent size={14} style={{ color: 'var(--accent-blue)' }} /> },
-        { label: 'Academic Status', value: 'Final Year CSE', icon: <Calendar size={14} style={{ color: 'var(--accent-blue)' }} /> }
+        { label: 'Academic Status', value: 'Completed in June', icon: <Calendar size={14} style={{ color: 'var(--accent-blue)' }} /> }
       ]
     },
     {
@@ -20,11 +20,11 @@ const EducationTimeline = () => {
       title: 'AWS Academy Graduate',
       subtitle: 'Cloud Foundations & Infrastructure',
       institution: 'AWS Academy Certification',
-      duration: '2023 - 2024',
+      duration: '2024',
       description: 'Completed AWS Academy Graduate program. Focus on core cloud concepts, AWS billing, and secure cloud services (EC2, S3, IAM, VPC).',
       metrics: [
         { label: 'Scope', value: 'Cloud Architecture', icon: <Award size={14} style={{ color: 'var(--accent-yellow)' }} /> },
-        { label: 'Status', value: 'Completed Graduate', icon: <Award size={14} style={{ color: 'var(--accent-yellow)' }} /> }
+        { label: 'Status', value: 'Completed course', icon: <Award size={14} style={{ color: 'var(--accent-yellow)' }} /> }
       ]
     }
   ];
@@ -129,7 +129,7 @@ const EducationTimeline = () => {
           <span className="sidebar-diag-label">System Diagnostics</span>
           <div className="sidebar-diag-list">
             <div className="sidebar-diag-row"><span>GPA Tier:</span><span className="sidebar-diag-val">First Class Distinction</span></div>
-            <div className="sidebar-diag-row"><span>AWS Cert status:</span><span className="sidebar-diag-val-yellow">Graduate</span></div>
+            <div className="sidebar-diag-row"><span>CGPA:</span><span className="sidebar-diag-val-yellow">8.13</span></div>
             <div className="sidebar-diag-row"><span>Batch Status:</span><span className="sidebar-diag-val">2022 - 2026</span></div>
           </div>
         </div>

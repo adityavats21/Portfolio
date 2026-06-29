@@ -1,8 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Brain, FolderGit2, GraduationCap, Mail, ExternalLink, Activity, Send } from 'lucide-react';
+import { Brain, FolderGit2, GraduationCap, Mail, ExternalLink, Activity, Send, Briefcase, Award, Home } from 'lucide-react';
 import SkillsMatrix from './components/SkillsMatrix';
 import ProjectsSandbox from './components/ProjectsSandbox';
 import EducationTimeline from './components/EducationTimeline';
+import Experience from './components/Experience';
+import Certificates from './components/Certificates';
+import heroImage from './assets/hero.jpg';
 
 const Github = ({ size = 20, className = "" }) => (
   <svg 
@@ -22,6 +25,22 @@ const Github = ({ size = 20, className = "" }) => (
   </svg>
 );
 
+const LeetCodeIcon = ({ size = 20, className = "" }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+    <polyline points="16 18 22 12 16 6" />
+    <polyline points="8 6 2 12 8 18" />
+  </svg>
+);
+
+const HackerRankIcon = ({ size = 20, className = "" }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+    <line x1="4" y1="9" x2="20" y2="9" />
+    <line x1="4" y1="15" x2="20" y2="15" />
+    <line x1="10" y1="3" x2="8" y2="21" />
+    <line x1="16" y1="3" x2="14" y2="21" />
+  </svg>
+);
+
 function App() {
   const [activeTab, setActiveTab] = useState('Home');
   const [typedTitle, setTypedTitle] = useState('');
@@ -32,7 +51,7 @@ function App() {
   const [formStatus, setFormStatus] = useState(null); // 'sending' | 'success'
 
   // Typewriter effect strings
-  const titles = ['Data Scientist', 'Machine Learning Engineer', 'Deep Learning Specialist'];
+  const titles = ['Data Analyst', 'Machine Learning Engineer', 'Data Science'];
   
   useEffect(() => {
     let titleIdx = 0;
@@ -164,7 +183,7 @@ function App() {
         </div>
 
         <nav className="nav-menu">
-          {['Home', 'Skills', 'Projects', 'Education', 'Contact'].map((tab) => (
+          {['Home', 'Skills', 'Experience', 'Certificates', 'Projects', 'Education', 'Contact'].map((tab) => (
             <span
               key={tab}
               onClick={() => setActiveTab(tab)}
@@ -194,8 +213,10 @@ function App() {
       {/* Mobile Navbar */}
       <div className="mobile-navbar">
         {[
-          { name: 'Home', icon: <GraduationCap size={18} /> },
+          { name: 'Home', icon: <Home size={18} /> },
           { name: 'Skills', icon: <Brain size={18} /> },
+          { name: 'Experience', icon: <Briefcase size={18} /> },
+          { name: 'Certificates', icon: <Award size={18} /> },
           { name: 'Projects', icon: <FolderGit2 size={18} /> },
           { name: 'Education', icon: <GraduationCap size={18} /> },
           { name: 'Contact', icon: <Mail size={18} /> }
@@ -240,7 +261,7 @@ function App() {
                   </div>
                   
                   <p className="hero-description">
-                    Completed graduation from VIT-AP in CSE-CORE, specializing in exploratory data analysis, machine learning algorithms, deep neural network training, and secure cloud pipelines.
+                  Completed graduation from VIT-AP in CSE-CORE, specializing in exploratory data analysis, machine learning algorithms, deep neural network training, and secure cloud pipelines.
                   </p>
                   
                   <div className="hero-actions">
@@ -254,27 +275,42 @@ function App() {
                   </div>
                 </div>
 
-                {/* Status HUD Block */}
-                <div className="hud-panel glass-panel pulse-glow">
-                  <h3 className="hud-title">
-                    Executive Profile Diagnostic
-                  </h3>
-                  <div className="hud-readings">
-                    <div className="hud-row">
-                      <span className="hud-label">Academic Tier:</span>
-                      <span className="hud-val-cyan">CSE Batch 22-26</span>
-                    </div>
-                    <div className="hud-row">
-                      <span className="hud-label">Cumulative GPA:</span>
-                      <span className="hud-val-green">8.13 / 10.0</span>
-                    </div>
-                    <div className="hud-row">
-                      <span className="hud-label">Competence Focus:</span>
-                      <span className="hud-val-magenta">Data Science & ML</span>
-                    </div>
-                    <div className="hud-row">
-                      <span className="hud-label">System Core:</span>
-                      <span className="hud-val-yellow">AWS Academy Grad</span>
+                {/* Profile Photo and HUD */}
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
+                  <img 
+                    src={heroImage} 
+                    alt="Aditya Vats" 
+                    style={{ 
+                      width: '160px', 
+                      height: '160px', 
+                      borderRadius: '50%', 
+                      objectFit: 'cover', 
+                      border: '4px solid #ffffff', 
+                      boxShadow: '0 10px 30px rgba(79, 70, 229, 0.15)', 
+                      marginBottom: '1.5rem' 
+                    }} 
+                  />
+                  <div className="hud-panel glass-panel pulse-glow" style={{ width: '100%' }}>
+                    <h3 className="hud-title">
+                      Executive Profile Diagnostic
+                    </h3>
+                    <div className="hud-readings">
+                      <div className="hud-row">
+                        <span className="hud-label">Academic Tier:</span>
+                        <span className="hud-val-cyan">CSE Batch 22-26</span>
+                      </div>
+                      <div className="hud-row">
+                        <span className="hud-label">Cumulative GPA:</span>
+                        <span className="hud-val-green">8.13 / 10.0</span>
+                      </div>
+                      <div className="hud-row">
+                        <span className="hud-label">Competence Focus:</span>
+                        <span className="hud-val-magenta">Data Analayst/Science & ML</span>
+                      </div>
+                      <div className="hud-row">
+                        <span className="hud-label">System Core:</span>
+                        <span className="hud-val-yellow">Computer science Engineering</span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -342,7 +378,37 @@ function App() {
             </div>
           )}
 
-          {/* TAB 3: PROJECTS */}
+          {/* TAB 3: EXPERIENCE */}
+          {activeTab === 'Experience' && (
+            <div className="animate-fadeIn">
+              <div className="section-header">
+                <h2 className="section-title">
+                  Professional Experience
+                </h2>
+                <p className="section-desc">
+                  Summary of summer internships, full-stack developments, and industry collaborations.
+                </p>
+              </div>
+              <Experience />
+            </div>
+          )}
+
+          {/* TAB 4: CERTIFICATES */}
+          {activeTab === 'Certificates' && (
+            <div className="animate-fadeIn">
+              <div className="section-header">
+                <h2 className="section-title">
+                  Verified Credentials
+                </h2>
+                <p className="section-desc">
+                  AWS certifications, Deloitte simulations, and professional qualifications.
+                </p>
+              </div>
+              <Certificates />
+            </div>
+          )}
+
+          {/* TAB 5: PROJECTS */}
           {activeTab === 'Projects' && (
             <div className="animate-fadeIn">
               <div className="section-header">
@@ -357,7 +423,7 @@ function App() {
             </div>
           )}
 
-          {/* TAB 4: EDUCATION */}
+          {/* TAB 6: EDUCATION */}
           {activeTab === 'Education' && (
             <div className="animate-fadeIn">
               <div className="section-header">
@@ -365,14 +431,14 @@ function App() {
                   Timeline & Milestones
                 </h2>
                 <p className="section-desc">
-                  Academic records, cloud foundations certification details, and current research objectives.
+                  Academic records and AWS Academy Cloud foundations certification details.
                 </p>
               </div>
               <EducationTimeline />
             </div>
           )}
 
-          {/* TAB 5: CONTACT */}
+          {/* TAB 7: CONTACT */}
           {activeTab === 'Contact' && (
             <div className="contact-grid">
               {/* Left Column: Info & Connect */}
@@ -425,6 +491,40 @@ function App() {
                         className="contact-card-val link"
                       >
                         vatsaditya21@gmail.com
+                      </a>
+                    </div>
+                  </div>
+
+                  <div className="contact-info-card glass-panel">
+                    <div className="contact-card-icon-box cyan" style={{ color: 'var(--accent-purple)', background: 'rgba(124, 58, 237, 0.08)' }}>
+                      <LeetCodeIcon size={20} />
+                    </div>
+                    <div className="contact-card-details">
+                      <span className="contact-card-label">LeetCode Portfolio</span>
+                      <a 
+                        href="https://leetcode.com/u/adityavats21" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="contact-card-val link"
+                      >
+                        leetcode.com/u/adityavats21
+                      </a>
+                    </div>
+                  </div>
+
+                  <div className="contact-info-card glass-panel">
+                    <div className="contact-card-icon-box green" style={{ color: 'var(--accent-green)', background: 'rgba(16, 185, 129, 0.08)' }}>
+                      <HackerRankIcon size={20} />
+                    </div>
+                    <div className="contact-card-details">
+                      <span className="contact-card-label">HackerRank Profile</span>
+                      <a 
+                        href="https://www.hackerrank.com/profile/vatsaditya21" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="contact-card-val link"
+                      >
+                        hackerrank.com/vatsaditya21
                       </a>
                     </div>
                   </div>
