@@ -18,52 +18,54 @@ const SkillsMatrix = () => {
 
   const skillData = [
     // Data Science & Workflow
-    { name: 'Exploratory Data Analysis (EDA)', category: 'Data Science & Workflow', status: 'Core', rating: 90 },
-    { name: 'Data Cleaning & Preprocessing', category: 'Data Science & Workflow', status: 'Core', rating: 95 },
-    { name: 'Feature Engineering', category: 'Data Science & Workflow', status: 'Core', rating: 90 },
-    { name: 'Data Visualization (Matplotlib, Power BI)', category: 'Data Science & Workflow', status: 'Core', rating: 85 },
-    { name: 'Handling Missing Values & Outliers', category: 'Data Science & Workflow', status: 'Core', rating: 95 },
-    { name: 'Model Evaluation & Cross Validation', category: 'Data Science & Workflow', status: 'Core', rating: 90 },
-    { name: 'Hyperparameter Tuning', category: 'Data Science & Workflow', status: 'Core', rating: 85 },
-    { name: 'Data Collection & Pipeline Setup', category: 'Data Science & Workflow', status: 'Core', rating: 80 },
-    { name: 'Model Deployment basics', category: 'Data Science & Workflow', status: 'Active learning', rating: 60 },
+    { name: 'Exploratory Data Analysis (EDA)', category: 'Data Science & Workflow', status: 'Core' },
+    { name: 'Data Cleaning & Preprocessing', category: 'Data Science & Workflow', status: 'Core' },
+    { name: 'Feature Engineering', category: 'Data Science & Workflow', status: 'Core' },
+    { name: 'Data Visualization (Matplotlib, Power BI)', category: 'Data Science & Workflow', status: 'Core' },
+    { name: 'Handling Missing Values & Outliers', category: 'Data Science & Workflow', status: 'Core' },
+    { name: 'Model Evaluation & Cross Validation', category: 'Data Science & Workflow', status: 'Core' },
+    { name: 'Hyperparameter Tuning', category: 'Data Science & Workflow', status: 'Core' },
+    { name: 'Data Collection & Pipeline Setup', category: 'Data Science & Workflow', status: 'Core' },
+    { name: 'Model Deployment basics', category: 'Data Science & Workflow', status: 'Familiar' },
 
     // ML Algorithms
-    { name: 'Logistic Regression', category: 'ML Algorithms', status: 'Core', rating: 95 },
-    { name: 'Decision Trees & Random Forests', category: 'ML Algorithms', status: 'Core', rating: 90 },
-    { name: 'XGBoost', category: 'ML Algorithms', status: 'Core', rating: 90 },
-    { name: 'Linear, Ridge & Lasso Regression', category: 'ML Algorithms', status: 'Core', rating: 90 },
-    { name: 'K-Means Clustering', category: 'ML Algorithms', status: 'Core', rating: 80 },
-    { name: 'K-Nearest Neighbors (KNN)', category: 'ML Algorithms', status: 'Core', rating: 85 },
-    { name: 'Support Vector Machines (SVM)', category: 'ML Algorithms', status: 'Basic', rating: 70 },
+    { name: 'Logistic Regression', category: 'ML Algorithms', status: 'Core' },
+    { name: 'Decision Trees & Random Forests', category: 'ML Algorithms', status: 'Core' },
+    { name: 'XGBoost', category: 'ML Algorithms', status: 'Core' },
+    { name: 'Linear, Ridge & Lasso Regression', category: 'ML Algorithms', status: 'Core' },
+    { name: 'K-Means Clustering', category: 'ML Algorithms', status: 'Core' },
+    { name: 'K-Nearest Neighbors (KNN)', category: 'ML Algorithms', status: 'Core' },
+    { name: 'Support Vector Machines (SVM)', category: 'ML Algorithms', status: 'Familiar' },
 
     // Deep Learning
-    { name: 'Artificial Neural Networks (ANN)', category: 'Deep Learning', status: 'Core', rating: 85 },
-    { name: 'TensorFlow & Keras foundations', category: 'Deep Learning', status: 'Core', rating: 80 },
-    { name: 'Multi Layer Perceptron (MLP)', category: 'Deep Learning', status: 'Core', rating: 85 },
-    { name: 'Binary Cross Entropy & Activation Functions (ReLU, Sigmoid)', category: 'Deep Learning', status: 'Core', rating: 90 },
-    { name: 'Model Training Tuning (Early Stopping, Regularization)', category: 'Deep Learning', status: 'Core', rating: 85 },
+    { name: 'Artificial Neural Networks (ANN)', category: 'Deep Learning', status: 'Core' },
+    { name: 'TensorFlow & Keras foundations', category: 'Deep Learning', status: 'Core' },
+    { name: 'Multi Layer Perceptron (MLP)', category: 'Deep Learning', status: 'Core' },
+    { name: 'Binary Cross Entropy & Activation Functions (ReLU, Sigmoid)', category: 'Deep Learning', status: 'Core' },
+    { name: 'Model Training Tuning (Early Stopping, Regularization)', category: 'Deep Learning', status: 'Core' },
+    { name: 'Large Language Models (LLMs)', category: 'Deep Learning', status: 'Learning' },
+    { name: 'Retrieval-Augmented Generation (RAG)', category: 'Deep Learning', status: 'Learning' },
 
     // Libraries & Tools
-    { name: 'Pandas', category: 'Libraries & Tools', status: 'Core', rating: 95 },
-    { name: 'NumPy', category: 'Libraries & Tools', status: 'Core', rating: 90 },
-    { name: 'Scikit-learn', category: 'Libraries & Tools', status: 'Core', rating: 95 },
-    { name: 'Imbalanced-learn', category: 'Libraries & Tools', status: 'Core', rating: 85 },
-    { name: 'Joblib', category: 'Libraries & Tools', status: 'Core', rating: 80 },
+    { name: 'Pandas', category: 'Libraries & Tools', status: 'Core' },
+    { name: 'NumPy', category: 'Libraries & Tools', status: 'Core' },
+    { name: 'Scikit-learn', category: 'Libraries & Tools', status: 'Core' },
+    { name: 'Imbalanced-learn', category: 'Libraries & Tools', status: 'Core' },
+    { name: 'Joblib', category: 'Libraries & Tools', status: 'Core' },
 
     // Database
-    { name: 'SQL Query Optimization', category: 'Database', status: 'Core', rating: 85 },
-    { name: 'MySQL Database Management', category: 'Database', status: 'Core', rating: 80 },
+    { name: 'SQL Query Optimization', category: 'Database', status: 'Core' },
+    { name: 'MySQL Database Management', category: 'Database', status: 'Core' },
 
     // Statistics & Math
-    { name: 'Probability & Distributions', category: 'Statistics & Math', status: 'Core', rating: 75 },
-    { name: 'Hypothesis Testing', category: 'Statistics & Math', status: 'Core', rating: 80 },
-    { name: 'Descriptive & Inferential Statistics', category: 'Statistics & Math', status: 'Core', rating: 80 },
-    { name: 'Correlation & Regression Analysis', category: 'Statistics & Math', status: 'Core', rating: 85 },
+    { name: 'Probability & Distributions', category: 'Statistics & Math', status: 'Core' },
+    { name: 'Hypothesis Testing', category: 'Statistics & Math', status: 'Core' },
+    { name: 'Descriptive & Inferential Statistics', category: 'Statistics & Math', status: 'Core' },
+    { name: 'Correlation & Regression Analysis', category: 'Statistics & Math', status: 'Core' },
 
     // Cloud
-    { name: 'AWS Cloud Foundations', category: 'Cloud', status: 'AWS Academy Graduate', rating: 85 },
-    { name: 'Basic AWS Services (EC2, S3, IAM)', category: 'Cloud', status: 'Core', rating: 80 }
+    { name: 'AWS Cloud Foundations', category: 'Cloud', status: 'Core' },
+    { name: 'Basic AWS Services (EC2, S3, IAM)', category: 'Cloud', status: 'Core' }
   ];
 
   const filteredSkills = skillData.filter(skill => {
@@ -76,7 +78,8 @@ const SkillsMatrix = () => {
   const getStatusColorClass = (status) => {
     switch (status) {
       case 'Core': return 'badge-core';
-      case 'AWS Academy Graduate': return 'badge-aws';
+      case 'Familiar': return 'badge-aws';
+      case 'Learning': return 'badge-learning';
       default: return 'badge-learning';
     }
   };
@@ -131,20 +134,6 @@ const SkillsMatrix = () => {
                 <span className="skill-category-label">
                   {skill.category}
                 </span>
-              </div>
-
-              {/* Progress/Competence Bar */}
-              <div className="skill-meter">
-                <div className="skill-meter-header">
-                  <span>Proficiency</span>
-                  <span className="skill-meter-value">{skill.rating}%</span>
-                </div>
-                <div className="skill-track">
-                  <div 
-                    className="skill-fill" 
-                    style={{ width: `${skill.rating}%` }}
-                  ></div>
-                </div>
               </div>
             </div>
           ))

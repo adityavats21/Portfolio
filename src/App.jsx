@@ -290,26 +290,26 @@ function App() {
                       marginBottom: '1.5rem' 
                     }} 
                   />
-                  <div className="hud-panel glass-panel pulse-glow" style={{ width: '100%' }}>
-                    <h3 className="hud-title">
-                      Executive Profile Diagnostic
+                  <div className="glass-panel" style={{ width: '100%', padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                    <h3 style={{ fontSize: '1rem', fontWeight: '600', color: 'var(--text-primary)', borderBottom: '1px solid rgba(15, 23, 42, 0.05)', paddingBottom: '0.5rem', marginBottom: '0.25rem' }}>
+                      Education & Focus
                     </h3>
-                    <div className="hud-readings">
-                      <div className="hud-row">
-                        <span className="hud-label">Academic Tier:</span>
-                        <span className="hud-val-cyan">CSE Batch 22-26</span>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', fontSize: '0.875rem' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <span style={{ color: 'var(--text-secondary)', fontWeight: '500' }}>Degree:</span>
+                        <span style={{ color: 'var(--text-primary)', fontWeight: '600' }}>B.Tech in Computer Science</span>
                       </div>
-                      <div className="hud-row">
-                        <span className="hud-label">Cumulative GPA:</span>
-                        <span className="hud-val-green">8.13 / 10.0</span>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <span style={{ color: 'var(--text-secondary)', fontWeight: '500' }}>Graduation Year:</span>
+                        <span style={{ color: 'var(--text-primary)', fontWeight: '600' }}>Class of 2026</span>
                       </div>
-                      <div className="hud-row">
-                        <span className="hud-label">Competence Focus:</span>
-                        <span className="hud-val-magenta">Data Analayst/Science & ML</span>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <span style={{ color: 'var(--text-secondary)', fontWeight: '500' }}>Cumulative GPA:</span>
+                        <span style={{ color: 'var(--accent-green)', fontWeight: '600' }}>8.13 / 10.0</span>
                       </div>
-                      <div className="hud-row">
-                        <span className="hud-label">System Core:</span>
-                        <span className="hud-val-yellow">Computer science Engineering</span>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <span style={{ color: 'var(--text-secondary)', fontWeight: '500' }}>Key Focus:</span>
+                        <span style={{ color: 'var(--text-primary)', fontWeight: '600' }}>Data Science, ML & AI</span>
                       </div>
                     </div>
                   </div>
@@ -445,10 +445,10 @@ function App() {
               <div className="contact-info-col">
                 <div className="section-header">
                   <h2 className="section-title">
-                    Establish Link
+                    Get in Touch
                   </h2>
                   <p className="section-desc">
-                    Connect directly or query git endpoints. Always looking for professional collaborations in ML and data science.
+                    Connect directly. Always looking for professional collaborations in ML and data science.
                   </p>
                 </div>
 
@@ -534,36 +534,36 @@ function App() {
               {/* Right Column: Dynamic Form */}
               <div className="contact-form-panel glass-panel">
                 <h3 className="hud-title">
-                  Send Transmission
+                  Send Message
                 </h3>
 
                 <form onSubmit={handleContactSubmit} className="contact-form-wrapper">
                   <div className="contact-form-group">
-                    <label className="contact-form-label">Sender Name</label>
+                    <label className="contact-form-label">Your Name</label>
                     <input
                       type="text"
                       required
                       value={contactForm.name}
                       onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
                       className="contact-form-input"
-                      placeholder="Identify yourself..."
+                      placeholder="Enter your name..."
                     />
                   </div>
 
                   <div className="contact-form-group">
-                    <label className="contact-form-label">Sender Email</label>
+                    <label className="contact-form-label">Your Email</label>
                     <input
                       type="email"
                       required
                       value={contactForm.email}
                       onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
                       className="contact-form-input"
-                      placeholder="Return mail routing..."
+                      placeholder="Enter your email..."
                     />
                   </div>
 
                   <div className="contact-form-group">
-                    <label className="contact-form-label">Transmission Payload</label>
+                    <label className="contact-form-label">Message</label>
                     <textarea
                       required
                       rows={4}
@@ -571,7 +571,7 @@ function App() {
                       onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
                       className="contact-form-input"
                       style={{ resize: 'vertical' }}
-                      placeholder="Type message block here..."
+                      placeholder="Enter your message..."
                     ></textarea>
                   </div>
 
@@ -582,12 +582,12 @@ function App() {
                     style={{ width: '100%', justifyContent: 'center' }}
                   >
                     {formStatus === 'sending' ? (
-                      <span className="text-glow-cyan">Sending Signal...</span>
+                      <span className="text-glow-cyan">Sending Message...</span>
                     ) : formStatus === 'success' ? (
-                      <span className="text-glow-green">Signal Dispatched</span>
+                      <span className="text-glow-green">Message Sent</span>
                     ) : (
                       <>
-                        <span>Dispatch Signal</span>
+                        <span>Send Message</span>
                         <Send size={12} />
                       </>
                     )}
