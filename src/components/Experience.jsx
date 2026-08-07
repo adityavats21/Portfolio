@@ -1,5 +1,5 @@
 import React from 'react';
-import { Briefcase, Calendar, MapPin, Award, CheckCircle } from 'lucide-react';
+import { Briefcase, Calendar, MapPin, CheckCircle } from 'lucide-react';
 
 const Experience = () => {
   const experiences = [
@@ -21,19 +21,19 @@ const Experience = () => {
   ];
 
   return (
-    <div className="timeline-timeline" style={{ maxWidth: '800px', margin: '0 auto' }}>
+    <div className="experience-list-container" style={{ maxWidth: '800px', margin: '0 auto', width: '100%' }}>
       {experiences.map((exp, index) => (
-        <div key={index} className="timeline-node">
+        <div key={index} className="experience-card-curtain-wrapper timeline-node" style={{ width: '100%' }}>
           <span className="timeline-dot-indicator"></span>
           
-          <div className="timeline-card glass-panel">
+          <div className="experience-card glass-panel" style={{ width: '100%' }}>
             <div className="timeline-card-header">
               <div className="timeline-header-left">
                 <div className="timeline-title-row">
-                  <Briefcase size={20} className="timeline-card-icon-graduation" />
+                  <Briefcase size={20} className="timeline-card-icon-graduation" style={{ color: 'var(--accent-gold)' }} />
                   <h3 className="timeline-card-title">{exp.role}</h3>
                 </div>
-                <span className="timeline-card-subtitle">{exp.company}</span>
+                <span className="timeline-card-subtitle" style={{ color: 'var(--accent-gold)', fontWeight: '600' }}>{exp.company}</span>
                 <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', marginTop: '0.25rem' }}>
                   <span className="timeline-card-inst" style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
                     <MapPin size={12} /> {exp.location}
@@ -51,13 +51,13 @@ const Experience = () => {
 
             {/* Key Deliverables */}
             <div style={{ marginBottom: '1.25rem' }}>
-              <span className="timeline-topics-label" style={{ color: 'var(--accent-blue)', marginBottom: '0.5rem', display: 'block' }}>
+              <span className="timeline-topics-label" style={{ color: 'var(--accent-gold)', marginBottom: '0.5rem', display: 'block', fontSize: '0.8rem', fontWeight: '600', letterSpacing: '0.5px' }}>
                 Key Responsibilities & Deliverables
               </span>
-              <ul style={{ listStyle: 'none', paddingLeft: '0', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              <ul style={{ listStyle: 'none', paddingLeft: '0', display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
                 {exp.achievements.map((ach, idx) => (
-                  <li key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem', fontSize: '0.8rem', color: 'var(--text-secondary)', lineHeight: '1.5' }}>
-                    <CheckCircle size={14} style={{ color: 'var(--accent-green)', flexShrink: 0, marginTop: '2px' }} />
+                  <li key={idx} className="experience-bullet" style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem', fontSize: '0.8rem', color: 'var(--text-secondary)', lineHeight: '1.5' }}>
+                    <CheckCircle size={14} style={{ color: 'var(--accent-gold)', flexShrink: 0, marginTop: '2px' }} />
                     <span>{ach}</span>
                   </li>
                 ))}
@@ -66,10 +66,10 @@ const Experience = () => {
 
             {/* Technologies Acquired */}
             <div className="timeline-card-topics-section">
-              <span className="timeline-topics-label">Skills & Technologies Acquired</span>
-              <div className="timeline-topics-list">
+              <span className="timeline-topics-label" style={{ fontSize: '0.75rem', fontWeight: '600', color: 'var(--text-secondary)' }}>Skills & Technologies Acquired</span>
+              <div className="timeline-topics-list" style={{ marginTop: '0.5rem' }}>
                 {exp.skills.map((skill, idx) => (
-                  <span key={idx} className="timeline-topic-tag" style={{ background: 'rgba(79, 70, 229, 0.05)', color: 'var(--accent-blue)', borderColor: 'rgba(79, 70, 229, 0.12)' }}>
+                  <span key={idx} className="timeline-topic-tag bounce-pill" style={{ background: 'rgba(245, 158, 11, 0.05)', color: 'var(--accent-gold)', borderColor: 'rgba(245, 158, 11, 0.12)' }}>
                     {skill}
                   </span>
                 ))}

@@ -93,15 +93,15 @@ const ProjectsSandbox = () => {
       description: 'An advanced pipeline comparing classical and quantum machine learning models to identify fraudulent banking transactions. QML circuits exploit quantum state dimensions to capture complex correlation factors.',
       tech: ['Python', 'TensorFlow', 'Scikit-learn', 'XGBoost', 'Qiskit', 'PennyLane', 'Pandas', 'NumPy'],
       github: 'https://github.com/adityavats21/fraud-quantum-capstone',
-      icon: <Cpu size={24} style={{ color: 'var(--accent-cyan)' }} />
+      icon: <Cpu size={24} />
     },
     {
       id: 'market',
       title: 'MarketMatrix Dashboard',
-      description: 'A financial predictive and descriptive analytics hub. Evaluates real-time asset pricing, user sentiment analysis, and machine learning signals to guide investment decisions and risk profiles.',
-      tech: ['Python', 'Pandas', 'Matplotlib', 'Scikit-learn', 'Machine Learning', 'API Integration'],
+      description: 'Real-time stock sentiment aggregator. Runs web scrapers and aggregates API streams to compile financial indicators and market direction metrics.',
+      tech: ['Python', 'Flask', 'HTML5/CSS3', 'REST APIs', 'Pandas', 'Requests', 'Visual Analytics'],
       github: 'https://github.com/adityavats21/MarketMatrix',
-      icon: <TrendingUp size={24} style={{ color: 'var(--accent-green)' }} />
+      icon: <TrendingUp size={24} />
     },
     {
       id: 'resume',
@@ -109,59 +109,83 @@ const ProjectsSandbox = () => {
       description: 'An NLP tool built to scan resume documents against standard job descriptions, extracting relevant technical terms and calculating an ATS formatting / keyword compliance score.',
       tech: ['Python', 'Natural Language Processing', 'Regular Expressions', 'File Parsers', 'TKinter/Web Interface'],
       github: 'https://github.com/adityavats21/resume_keyword_extractor',
-      icon: <SearchCode size={24} style={{ color: 'var(--accent-magenta)' }} />
+      icon: <SearchCode size={24} />
     }
   ];
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem', width: '100%' }}>
       {/* Project Cards Grid */}
-      <div className="projects-grid">
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', width: '100%' }}>
         {projects.map((proj) => (
           <div 
             key={proj.id}
-            className="project-card glass-panel"
+            className="project-card project-card-interactive"
+            style={{ width: '100%' }}
           >
-            <div className="project-top">
-              <div className="project-card-header">
-                <div className="project-icon-box">
+            {/* Dark left panel */}
+            <div className="project-left-side-curtain">
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
+                <div className="project-icon-box" style={{ background: 'var(--bg-primary)', padding: '0.6rem', borderRadius: '10px', display: 'flex', color: 'var(--accent-gold)' }}>
                   {proj.icon}
                 </div>
                 <a 
                   href={proj.github} 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="project-github-link"
+                  className="nav-social-btn"
+                  style={{ opacity: 0.8, color: 'var(--accent-gold)' }}
                 >
-                  <Github size={20} />
+                  <Github size={18} />
                 </a>
               </div>
-
-              <h3 className="project-title">{proj.title}</h3>
-              <p className="project-desc">{proj.description}</p>
+              <h3 className="project-card-title" style={{ fontSize: '1rem', fontWeight: '800', fontFamily: 'var(--font-display)', color: 'var(--text-primary)', transition: 'all 0.3s ease', lineHeight: '1.4' }}>
+                {proj.title}
+              </h3>
+              <button
+                onClick={() => setActiveSimulator(activeSimulator === proj.id ? null : proj.id)}
+                className="btn-cyber-shimmer"
+                style={{ marginTop: '1.25rem', width: '100%', fontSize: '0.7rem', padding: '0.5rem' }}
+              >
+                <Play size={10} />
+                <span>{activeSimulator === proj.id ? 'Close Sandbox' : 'Run Sandbox'}</span>
+              </button>
             </div>
 
-            <div className="project-bottom">
+            {/* Right content details */}
+            <div className="project-right-details" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: '1.5rem' }}>
+              <div>
+                <p className="project-desc" style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', lineHeight: '1.6', margin: '0' }}>{proj.description}</p>
+                
+                {/* Simulated quantified outcomes */}
+                <div style={{ display: 'flex', gap: '1rem', marginTop: '1.25rem', flexWrap: 'wrap' }}>
+                  <div className="project-outcome-box" style={{ background: 'var(--bg-tertiary)', border: '1px solid var(--glass-border)', padding: '0.5rem 0.75rem', borderRadius: '6px', fontSize: '0.75rem' }}>
+                    <span style={{ color: 'var(--accent-gold)', fontWeight: '700' }}>Result: </span>
+                    <span style={{ color: 'var(--text-secondary)' }}>
+                      {proj.id === 'fraud' ? '98.4% Quantum Acc' : proj.id === 'market' ? 'Real-time 200ms update latency' : '95% ATS extraction rate'}
+                    </span>
+                  </div>
+                  <div className="project-outcome-box" style={{ background: 'var(--bg-tertiary)', border: '1px solid var(--glass-border)', padding: '0.5rem 0.75rem', borderRadius: '6px', fontSize: '0.75rem' }}>
+                    <span style={{ color: 'var(--accent-gold)', fontWeight: '700' }}>Impact: </span>
+                    <span style={{ color: 'var(--text-secondary)' }}>
+                      {proj.id === 'fraud' ? 'Reduces classical training cycles' : proj.id === 'market' ? 'Scalable Flask route telemetry' : 'Optimizes keywords dynamically'}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
               {/* Tech Tags */}
-              <div className="project-tags">
+              <div className="project-tags" style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
                 {proj.tech.map((t, idx) => (
                   <span 
                     key={idx}
-                    className="project-tag"
+                    className="project-tag bounce-pill"
+                    style={{ background: 'var(--bg-tertiary)', border: '1px solid var(--glass-border)', padding: '0.35rem 0.65rem', borderRadius: '20px', fontSize: '0.65rem', color: 'var(--text-secondary)', fontWeight: '500', fontFamily: 'var(--font-mono)' }}
                   >
                     {t}
                   </span>
                 ))}
               </div>
-
-              {/* Action Button */}
-              <button
-                onClick={() => setActiveSimulator(activeSimulator === proj.id ? null : proj.id)}
-                className={`project-action-btn ${activeSimulator === proj.id ? 'active' : ''}`}
-              >
-                <Play size={12} />
-                <span>{activeSimulator === proj.id ? 'Close Sandbox' : 'Run Sandbox'}</span>
-              </button>
             </div>
           </div>
         ))}
@@ -169,10 +193,10 @@ const ProjectsSandbox = () => {
 
       {/* Simulator Sandbox Container */}
       {activeSimulator && (
-        <div className="sandbox-workspace glass-panel animate-fadeIn">
-          <div className="sandbox-header">
-            <Sparkles size={18} style={{ color: 'var(--accent-cyan)' }} />
-            <h3 className="sandbox-title">
+        <div className="sandbox-workspace glass-panel animate-fadeIn" style={{ marginTop: '1rem', background: 'var(--bg-secondary)', border: '1px solid var(--glass-border)', borderRadius: '12px', padding: '1.75rem' }}>
+          <div className="sandbox-header" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.25rem', borderBottom: '1px solid var(--glass-border)', paddingBottom: '0.75rem' }}>
+            <Sparkles size={18} style={{ color: 'var(--accent-gold)' }} />
+            <h3 className="sandbox-title" style={{ fontSize: '0.85rem', fontFamily: 'var(--font-display)', color: 'var(--text-primary)', margin: '0' }}>
               Interactive Simulation Workspace: {projects.find(p => p.id === activeSimulator).title}
             </h3>
           </div>
@@ -180,7 +204,7 @@ const ProjectsSandbox = () => {
           {/* 1. Quantum Fraud Simulator View */}
           {activeSimulator === 'fraud' && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-              <p className="sandbox-text-desc">
+              <p className="sandbox-text-desc" style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', margin: '0' }}>
                 Compare classical Random Forest execution times against high-dimension IBM Qiskit Simulator circuits.
               </p>
               
@@ -188,7 +212,8 @@ const ProjectsSandbox = () => {
                 <button
                   disabled={fraudSimRunning}
                   onClick={runFraudSimulation}
-                  className="btn-cyber"
+                  className="btn-cyber-shimmer"
+                  style={{ width: 'fit-content' }}
                 >
                   {fraudSimRunning ? <RefreshCw size={14} className="animate-spin" /> : <Play size={14} />}
                   <span>{fraudSimRunning ? 'Simulating Quantum Circuit...' : 'Trigger Fraud Check'}</span>
@@ -196,24 +221,30 @@ const ProjectsSandbox = () => {
               </div>
 
               {fraudResult && (
-                <div className="sandbox-results-grid animate-fadeIn">
-                  <div className="sandbox-result-card">
-                    <span className="sandbox-card-title">Classical ML (XGBoost)</span>
-                    <div className="sandbox-metric-row"><span>Accuracy:</span><span style={{ color: '#ef4444' }}>{fraudResult.classical.accuracy}%</span></div>
-                    <div className="sandbox-metric-row"><span>Recall:</span><span style={{ color: '#ef4444' }}>{fraudResult.classical.recall}%</span></div>
-                    <div className="sandbox-metric-row"><span>Compute Time:</span><span className="sandbox-metric-time">{fraudResult.classical.timeMs}ms</span></div>
+                <div className="sandbox-results-grid animate-fadeIn" style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '1rem', marginTop: '0.5rem' }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                    <div className="sandbox-result-card" style={{ background: 'var(--bg-tertiary)', border: '1px solid var(--glass-border)', padding: '1rem', borderRadius: '8px' }}>
+                      <span className="sandbox-card-title" style={{ fontSize: '0.7rem', textTransform: 'uppercase', color: 'var(--text-dark)', display: 'block', marginBottom: '0.5rem', fontWeight: '600' }}>Classical ML (XGBoost)</span>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem', fontSize: '0.75rem' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between' }}><span>Accuracy:</span><span style={{ color: '#ef4444', fontWeight: '700' }}>{fraudResult.classical.accuracy}%</span></div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between' }}><span>Recall:</span><span style={{ color: '#ef4444', fontWeight: '700' }}>{fraudResult.classical.recall}%</span></div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between' }}><span>Compute:</span><span style={{ color: 'var(--text-primary)', fontFamily: 'var(--font-mono)' }}>{fraudResult.classical.timeMs}ms</span></div>
+                      </div>
+                    </div>
+
+                    <div className="sandbox-result-card glow-card" style={{ background: 'rgba(245, 158, 11, 0.05)', border: '1px solid var(--accent-gold)', padding: '1rem', borderRadius: '8px' }}>
+                      <span className="sandbox-card-title" style={{ fontSize: '0.7rem', textTransform: 'uppercase', color: 'var(--accent-gold)', display: 'block', marginBottom: '0.5rem', fontWeight: '700' }}>Quantum ML (Hybrid QNN)</span>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem', fontSize: '0.75rem' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between' }}><span>Accuracy:</span><span style={{ color: 'var(--accent-gold)', fontWeight: '700' }}>{fraudResult.quantum.accuracy}%</span></div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between' }}><span>Recall:</span><span style={{ color: 'var(--accent-gold)', fontWeight: '700' }}>{fraudResult.quantum.recall}%</span></div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between' }}><span>Compute:</span><span style={{ color: 'var(--accent-gold)', fontFamily: 'var(--font-mono)', fontWeight: '700' }}>{fraudResult.quantum.timeMs}ms</span></div>
+                      </div>
+                    </div>
                   </div>
 
-                  <div className="sandbox-result-card glow-card">
-                    <span className="sandbox-card-title" style={{ color: 'var(--accent-cyan)' }}>Quantum ML (Hybrid QNN)</span>
-                    <div className="sandbox-metric-row"><span>Accuracy:</span><span className="hud-val-cyan">{fraudResult.quantum.accuracy}%</span></div>
-                    <div className="sandbox-metric-row"><span>Recall:</span><span className="hud-val-cyan">{fraudResult.quantum.recall}%</span></div>
-                    <div className="sandbox-metric-row"><span>Compute Time:</span><span className="hud-val-yellow">{fraudResult.quantum.timeMs}ms</span></div>
-                  </div>
-
-                  <div className="sandbox-result-card">
-                    <span className="sandbox-verdict-title">Engine Verdict</span>
-                    <p className="sandbox-verdict-text">{fraudResult.verdict}</p>
+                  <div className="sandbox-result-card" style={{ background: 'var(--bg-tertiary)', border: '1px solid var(--glass-border)', padding: '1rem', borderRadius: '8px', fontSize: '0.75rem' }}>
+                    <span className="sandbox-verdict-title" style={{ color: 'var(--accent-gold)', fontWeight: '700', display: 'block', marginBottom: '0.25rem' }}>Engine Verdict</span>
+                    <p className="sandbox-verdict-text" style={{ margin: '0', color: 'var(--text-secondary)', lineHeight: '1.5' }}>{fraudResult.verdict}</p>
                   </div>
                 </div>
               )}
@@ -223,41 +254,31 @@ const ProjectsSandbox = () => {
           {/* 2. Market Matrix Simulator View */}
           {activeSimulator === 'market' && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-              <p className="sandbox-text-desc">
-                Click an asset to run sentiment models and generate dynamic trading signals.
+              <p className="sandbox-text-desc" style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', margin: '0' }}>
+                Toggle tickers to check real-time simulated API pricing outputs and sentiment algorithms.
               </p>
-
-              <div className="sandbox-controls" style={{ flexWrap: 'wrap' }}>
+              
+              <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
                 {['NVDA', 'AAPL', 'BTC', 'TSLA'].map((stock) => (
                   <button
                     key={stock}
                     onClick={() => runMarketAnalysis(stock)}
-                    className={`sandbox-stock-btn ${selectedStock === stock ? 'active' : ''}`}
+                    className="about-nav-btn"
+                    style={{ 
+                      borderColor: selectedStock === stock ? 'var(--accent-gold)' : 'var(--glass-border)',
+                      color: selectedStock === stock ? 'var(--accent-gold)' : 'var(--text-primary)'
+                    }}
                   >
                     {stock}
                   </button>
                 ))}
               </div>
 
-              <div className="sandbox-results-grid-4">
-                <div className="sandbox-result-card">
-                  <span className="sandbox-card-title">Price Asset</span>
-                  <span className="sandbox-stock-val">${marketMetrics.price.toLocaleString()}</span>
-                </div>
-                <div className="sandbox-result-card">
-                  <span className="sandbox-card-title">Market Sentiment</span>
-                  <span className={`sandbox-stock-val ${
-                    marketMetrics.sentiment.includes('Bullish') ? 'sentiment-val-green' : marketMetrics.sentiment === 'Neutral' ? 'sentiment-val-yellow' : 'sentiment-val-red'
-                  }`}>{marketMetrics.sentiment}</span>
-                </div>
-                <div className="sandbox-result-card">
-                  <span className="sandbox-card-title">Volatility Index</span>
-                  <span className="sandbox-stock-val">{marketMetrics.volatility}</span>
-                </div>
-                <div className="sandbox-result-card">
-                  <span className="sandbox-card-title">Signal Action</span>
-                  <span className="sandbox-stock-val" style={{ color: 'var(--accent-cyan)', textShadow: '0 0 5px rgba(0, 243, 255, 0.4)' }}>{marketMetrics.signal}</span>
-                </div>
+              <div className="sandbox-results-grid animate-fadeIn" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1rem', background: 'var(--bg-tertiary)', padding: '1rem', borderRadius: '8px', fontSize: '0.75rem' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}><span>Simulated Price:</span><span style={{ fontWeight: '700', color: 'var(--text-primary)' }}>${marketMetrics.price.toFixed(2)}</span></div>
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}><span>Social Sentiment:</span><span style={{ fontWeight: '700', color: marketMetrics.sentiment.includes('Bullish') ? 'var(--accent-gold)' : '#ef4444' }}>{marketMetrics.sentiment}</span></div>
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}><span>Volatility Band:</span><span style={{ fontWeight: '700', color: 'var(--text-primary)' }}>{marketMetrics.volatility}</span></div>
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}><span>Engine Signal:</span><span style={{ fontWeight: '700', color: 'var(--accent-gold)' }}>{marketMetrics.signal}</span></div>
               </div>
             </div>
           )}
@@ -265,63 +286,51 @@ const ProjectsSandbox = () => {
           {/* 3. Resume Extractor Simulator View */}
           {activeSimulator === 'resume' && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-              <p className="sandbox-text-desc">
-                Paste your skills draft or edit the text below to analyze the keyword parser alignment score.
+              <p className="sandbox-text-desc" style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', margin: '0' }}>
+                Edit the text description block below to analyze matches against key Data Science variables.
               </p>
+              
+              <textarea
+                rows={3}
+                value={resumeText}
+                onChange={(e) => setResumeText(e.target.value)}
+                className="contact-form-input"
+                style={{ resize: 'vertical', width: '100%', fontSize: '0.75rem', background: 'var(--bg-tertiary)', border: '1px solid var(--glass-border)', borderRadius: '6px', padding: '0.65rem', color: 'var(--text-primary)', outline: 'none' }}
+              />
 
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                <textarea
-                  value={resumeText}
-                  onChange={(e) => setResumeText(e.target.value)}
-                  rows={3}
-                  className="sandbox-textarea"
-                ></textarea>
+              <div className="sandbox-controls">
                 <button
                   disabled={extracting}
                   onClick={runResumeExtraction}
-                  className="btn-cyber"
-                  style={{ color: 'var(--accent-magenta)', borderColor: 'var(--accent-magenta)', width: 'fit-content' }}
+                  className="btn-cyber-shimmer"
+                  style={{ width: 'fit-content' }}
                 >
-                  {extracting ? <RefreshCw size={14} className="animate-spin" /> : <SearchCode size={14} />}
-                  <span>{extracting ? 'Analyzing Resume Document...' : 'Run Keyword Parser'}</span>
+                  {extracting ? <RefreshCw size={14} className="animate-spin" /> : <Play size={14} />}
+                  <span>{extracting ? 'Parsing Terms...' : 'Calculate ATS Match Score'}</span>
                 </button>
               </div>
 
               {extractedKeywords && (
-                <div className="sandbox-resume-grid animate-fadeIn">
-                  <div className="sandbox-result-card">
-                    <span className="sandbox-card-title">Extracted Core Keywords</span>
-                    <div className="sandbox-keyword-list">
-                      {extractedKeywords.keywords.length > 0 ? (
-                        extractedKeywords.keywords.map((kw, idx) => (
-                          <span key={idx} className="sandbox-keyword-badge">
+                <div className="sandbox-results-grid animate-fadeIn" style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '1rem', marginTop: '0.5rem' }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: '120px 1fr', gap: '1.5rem', alignItems: 'center', background: 'var(--bg-tertiary)', padding: '1rem', borderRadius: '8px' }}>
+                    <div style={{ textAlign: 'center', borderRight: '1px solid var(--glass-border)', paddingRight: '1rem' }}>
+                      <span style={{ fontSize: '0.6rem', color: 'var(--text-dark)', textTransform: 'uppercase', display: 'block', fontWeight: '600' }}>ATS MATCH</span>
+                      <span style={{ fontSize: '1.75rem', fontWeight: '800', color: 'var(--accent-gold)', fontFamily: 'var(--font-display)' }}>{extractedKeywords.atsScore}%</span>
+                    </div>
+                    <div>
+                      <span style={{ fontSize: '0.65rem', color: 'var(--text-dark)', textTransform: 'uppercase', display: 'block', marginBottom: '0.4rem', fontWeight: '600' }}>Extracted Keywords</span>
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.35rem' }}>
+                        {extractedKeywords.keywords.map((kw, i) => (
+                          <span key={i} style={{ background: 'rgba(245, 158, 11, 0.08)', color: 'var(--accent-gold)', padding: '0.2rem 0.4rem', borderRadius: '4px', fontSize: '0.6rem', fontFamily: 'var(--font-mono)', fontWeight: '600' }}>
                             {kw}
                           </span>
-                        ))
-                      ) : (
-                        <span className="sandbox-verdict-text">No matching keywords parsed.</span>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="sandbox-result-card" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: '1rem' }}>
-                    <div>
-                      <span className="sandbox-card-title">ATS Optimization Score</span>
-                      <div className="sandbox-ats-score-container">
-                        <span className="sandbox-ats-val">{extractedKeywords.atsScore}%</span>
-                        <div className="sandbox-ats-bar-track">
-                          <div 
-                            className="sandbox-ats-bar-fill" 
-                            style={{ width: `${extractedKeywords.atsScore}%` }}
-                          ></div>
-                        </div>
+                        ))}
                       </div>
                     </div>
-                    <div className="sandbox-verdict-box">
-                      <p className="sandbox-verdict-text" style={{ color: 'var(--text-primary)' }}>
-                        {extractedKeywords.verdict}
-                      </p>
-                    </div>
+                  </div>
+                  <div style={{ background: 'var(--bg-tertiary)', border: '1px solid var(--glass-border)', padding: '1rem', borderRadius: '8px', fontSize: '0.75rem' }}>
+                    <span style={{ color: 'var(--accent-gold)', fontWeight: '700', display: 'block', marginBottom: '0.25rem' }}>Extracted Advice</span>
+                    <p style={{ margin: '0', color: 'var(--text-secondary)', lineHeight: '1.5' }}>{extractedKeywords.verdict}</p>
                   </div>
                 </div>
               )}

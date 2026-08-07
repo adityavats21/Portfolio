@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Brain, FolderGit2, GraduationCap, Mail, ExternalLink, Activity, Send, Briefcase, Award, Home } from 'lucide-react';
+import { Brain, FolderGit2, GraduationCap, Mail, ExternalLink, Activity, Send, Briefcase, Award, Home, Trophy, BookOpen, ShieldCheck, HelpCircle } from 'lucide-react';
 import SkillsMatrix from './components/SkillsMatrix';
 import ProjectsSandbox from './components/ProjectsSandbox';
 import EducationTimeline from './components/EducationTimeline';
@@ -47,12 +47,12 @@ function App() {
   const canvasRef = useRef(null);
   
   // Contact Form State
-  const [contactForm, setContactForm] = useState({ name: '', email: '', message: '' });
+  const [contactForm, setContactForm] = useState({ name: '', email: '', subject: '', message: '' });
   const [formStatus, setFormStatus] = useState(null); // 'sending' | 'success'
 
-  // Typewriter effect strings
-  const titles = ['Data Analyst', 'Machine Learning Engineer', 'Data Science'];
+  const titles = ['Data Scientist', 'Machine Learning Engineer', 'Full Stack Developer'];
   
+  // Typewriter effect
   useEffect(() => {
     let titleIdx = 0;
     let charIdx = 0;
@@ -73,11 +73,11 @@ function App() {
 
       if (!isDeleting && charIdx === currentTitle.length) {
         isDeleting = true;
-        typingSpeed = 1500; // Pause at full title
+        typingSpeed = 2000;
       } else if (isDeleting && charIdx === 0) {
         isDeleting = false;
         titleIdx = (titleIdx + 1) % titles.length;
-        typingSpeed = 500; // Pause before typing next
+        typingSpeed = 500;
       }
 
       setTimeout(handleType, typingSpeed);
@@ -87,7 +87,65 @@ function App() {
     return () => clearTimeout(typeTimeout);
   }, []);
 
-  // Canvas bubble animation (Pleasant, Light mode styling)
+  // Intersection Observer for scroll animations
+  useEffect(() => {
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -100px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+        }
+      });
+    }, observerOptions);
+
+    const sections = document.querySelectorAll('.animate-section');
+    sections.forEach((section) => observer.observe(section));
+
+    return () => observer.disconnect();
+  }, []);
+
+  // ScrollSpy for highlighting nav links
+  useEffect(() => {
+    const handleScroll = () => {
+      const sectionIds = ['home', 'about', 'experience', 'education', 'projects', 'skills', 'certifications', 'achievements', 'contact'];
+      let currentSection = 'home';
+
+      for (const id of sectionIds) {
+        const el = document.getElementById(id);
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          // Highlight when section occupies the major part of viewport
+          if (rect.top <= window.innerHeight * 0.35) {
+            currentSection = id;
+          }
+        }
+      }
+
+      // Map id back to display name
+      const idToNameMap = {
+        home: 'Home',
+        about: 'About Me',
+        experience: 'Experience',
+        education: 'Education',
+        projects: 'Projects',
+        skills: 'Skills',
+        certifications: 'Certifications',
+        achievements: 'Achievements',
+        contact: 'Contact'
+      };
+
+      setActiveTab(idToNameMap[currentSection]);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Canvas floating bubbles background
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -99,16 +157,16 @@ function App() {
     let height = (canvas.height = window.innerHeight);
 
     const particles = [];
-    const maxParticles = 40;
+    const maxParticles = 30;
 
     class Particle {
       constructor() {
         this.x = Math.random() * width;
         this.y = Math.random() * height;
-        this.vx = (Math.random() - 0.5) * 0.15;
-        this.vy = (Math.random() - 0.5) * 0.15;
-        this.radius = Math.random() * 8 + 4;
-        this.alpha = Math.random() * 0.12 + 0.04;
+        this.vx = (Math.random() - 0.5) * 0.12;
+        this.vy = (Math.random() - 0.5) * 0.12;
+        this.radius = Math.random() * 6 + 3;
+        this.alpha = Math.random() * 0.1 + 0.03;
       }
 
       update() {
@@ -122,7 +180,7 @@ function App() {
       draw() {
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(79, 70, 229, ${this.alpha})`; // Soft Indigo
+        ctx.fillStyle = `rgba(245, 158, 11, ${this.alpha})`; // Champagne Gold tint
         ctx.fill();
       }
     }
@@ -161,35 +219,54 @@ function App() {
     setFormStatus('sending');
     setTimeout(() => {
       setFormStatus('success');
-      setContactForm({ name: '', email: '', message: '' });
-      setTimeout(() => setFormStatus(null), 4000);
+      setContactForm({ name: '', email: '', subject: '', message: '' });
+      setTimeout(() => setFormStatus(null), 3000);
     }, 1500);
   };
 
+  const smoothScrollTo = (id) => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const navItems = [
+    { id: 'home', label: 'Home' },
+    { id: 'about', label: 'About Me' },
+    { id: 'experience', label: 'Experience' },
+    { id: 'education', label: 'Education' },
+    { id: 'projects', label: 'Projects' },
+    { id: 'skills', label: 'Skills' },
+    { id: 'certifications', label: 'Certifications' },
+    { id: 'achievements', label: 'Achievements' },
+    { id: 'contact', label: 'Contact' }
+  ];
+
   return (
     <div className="app-wrapper">
-      {/* Background VFX */}
+      {/* Background canvas and visual grids */}
       <canvas ref={canvasRef} style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', zIndex: -3, pointerEvents: 'none' }} />
       <div className="bg-grid" />
       <div className="bg-radial" />
 
-      {/* Modern Navbar */}
+      {/* Sticky Navigation Bar */}
       <header className="header-navbar">
         <div className="nav-brand">
-          <span className="nav-dot"></span>
+          <span className="nav-dot" style={{ backgroundColor: 'var(--accent-gold)' }}></span>
           <h1 className="nav-logo-text">
             ADITYA<span>.VATS</span>
           </h1>
         </div>
 
         <nav className="nav-menu">
-          {['Home', 'Skills', 'Experience', 'Certificates', 'Projects', 'Education', 'Contact'].map((tab) => (
+          {navItems.map((item) => (
             <span
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={`nav-link ${activeTab === tab ? 'active' : ''}`}
+              key={item.id}
+              onClick={() => smoothScrollTo(item.id)}
+              className={`nav-link ${activeTab === item.label ? 'active' : ''}`}
             >
-              {tab}
+              {item.label}
             </span>
           ))}
         </nav>
@@ -200,31 +277,32 @@ function App() {
             target="_blank"
             rel="noopener noreferrer"
             className="nav-social-btn"
+            style={{ color: 'var(--accent-gold)' }}
           >
             <Github size={18} />
           </a>
           <div className="nav-system-status">
-            <Activity size={12} className="status-indicator-green" />
-            <span>Profile Verified</span>
+            <Activity size={12} className="status-indicator-green" style={{ color: 'var(--accent-gold)' }} />
+            <span>Telemetry Active</span>
           </div>
         </div>
       </header>
 
-      {/* Mobile Navbar */}
+      {/* Mobile Sticky Footer Menu */}
       <div className="mobile-navbar">
         {[
-          { name: 'Home', icon: <Home size={18} /> },
-          { name: 'Skills', icon: <Brain size={18} /> },
-          { name: 'Experience', icon: <Briefcase size={18} /> },
-          { name: 'Certificates', icon: <Award size={18} /> },
-          { name: 'Projects', icon: <FolderGit2 size={18} /> },
-          { name: 'Education', icon: <GraduationCap size={18} /> },
-          { name: 'Contact', icon: <Mail size={18} /> }
+          { id: 'home', name: 'Home', icon: <Home size={18} /> },
+          { id: 'about', name: 'About', icon: <BookOpen size={18} /> },
+          { id: 'experience', name: 'Work', icon: <Briefcase size={18} /> },
+          { id: 'projects', name: 'Projects', icon: <FolderGit2 size={18} /> },
+          { id: 'skills', name: 'Skills', icon: <Brain size={18} /> },
+          { id: 'certifications', name: 'Certs', icon: <Award size={18} /> },
+          { id: 'contact', name: 'Contact', icon: <Mail size={18} /> }
         ].map((item) => (
           <button
-            key={item.name}
-            onClick={() => setActiveTab(item.name)}
-            className={`mobile-nav-btn ${activeTab === item.name ? 'active' : ''}`}
+            key={item.id}
+            onClick={() => smoothScrollTo(item.id)}
+            className={`mobile-nav-btn ${activeTab.toLowerCase().includes(item.id) ? 'active' : ''}`}
           >
             {item.icon}
             <span>{item.name}</span>
@@ -232,373 +310,416 @@ function App() {
         ))}
       </div>
 
-      {/* Main Content Area */}
-      <main className="main-container">
+      {/* Main Single-Page Content */}
+      <main className="main-container" style={{ paddingBottom: '100px' }}>
         
-        {/* Dynamic Transition Wrapper */}
-        <div className="animate-fadeIn">
-          
-          {/* TAB 1: HOME */}
-          {activeTab === 'Home' && (
-            <div className="home-section">
-              <div className="hero-hud-grid">
-                
-                {/* Hero Text */}
-                <div className="hero-text">
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
-                    <span className="hero-tagline">
-                      VIT-AP UNIVERSITY // COMPUTER SCIENCE DEPT
-                    </span>
-                    <h2 className="hero-title">
-                      Aditya Vats
-                    </h2>
-                    <div className="typewriter-container">
-                      <span className="hero-typed">
-                        {typedTitle}
-                        <span className="typewriter"></span>
-                      </span>
-                    </div>
+        {/* ==================== SECTION 1: LANDING ==================== */}
+        <section id="home" className="section animate-section">
+          <div className="hero-hud-grid">
+            <div className="hero-text">
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+                <span className="hero-tagline" style={{ color: 'var(--accent-gold)' }}>
+                  VIT-AP UNIVERSITY // COMPUTER SCIENCE DEPT
+                </span>
+                <h2 className="hero-title" style={{ fontFamily: 'var(--font-display)', fontWeight: '900', letterSpacing: '-1px' }}>
+                  Aditya Vats
+                </h2>
+                <div className="typewriter-container" style={{ height: '35px' }}>
+                  <span className="hero-typed" style={{ color: 'var(--accent-gold)', fontSize: '1.2rem', fontFamily: 'var(--font-mono)' }}>
+                    {typedTitle}
+                    <span className="typewriter" style={{ background: 'var(--accent-gold)' }}></span>
+                  </span>
+                </div>
+              </div>
+              
+              <p className="hero-description" style={{ color: 'var(--text-secondary)', lineHeight: '1.7', fontSize: '0.9rem', marginTop: '1rem' }}>
+                Undergraduate researcher specializing in exploratory data analysis, machine learning algorithms, deep neural network configurations, and cloud pipelines.
+              </p>
+              
+              <div className="hero-actions social-icon-wrapper" style={{ marginTop: '2rem' }}>
+                <button 
+                  onClick={() => smoothScrollTo('projects')}
+                  className="btn-cyber-shimmer"
+                >
+                  <span>Explore Sandbox</span>
+                  <ExternalLink size={14} />
+                </button>
+                <button 
+                  onClick={() => smoothScrollTo('contact')}
+                  className="btn-cyber-shimmer"
+                  style={{ background: 'transparent', borderColor: 'var(--glass-border)' }}
+                >
+                  <span>Get In Touch</span>
+                  <Mail size={14} />
+                </button>
+              </div>
+
+              {/* Bounce-in Social Buttons */}
+              <div className="social-icon-wrapper" style={{ marginTop: '2.5rem' }}>
+                <a href="https://github.com/adityavats21" target="_blank" rel="noopener noreferrer" className="social-icon-btn nav-social-btn" style={{ color: 'var(--accent-gold)' }}><Github size={18} /></a>
+                <a href="https://www.linkedin.com/in/aditya-vats-760353247/" target="_blank" rel="noopener noreferrer" className="social-icon-btn nav-social-btn" style={{ color: 'var(--accent-gold)' }}><Briefcase size={18} /></a>
+                <a href="https://leetcode.com/u/adityavats21" target="_blank" rel="noopener noreferrer" className="social-icon-btn nav-social-btn" style={{ color: 'var(--accent-gold)' }}><LeetCodeIcon size={18} /></a>
+                <a href="https://www.hackerrank.com/profile/vatsaditya21" target="_blank" rel="noopener noreferrer" className="social-icon-btn nav-social-btn" style={{ color: 'var(--accent-gold)' }}><HackerRankIcon size={18} /></a>
+                <a href="mailto:vatsaditya21@gmail.com" className="social-icon-btn nav-social-btn" style={{ color: 'var(--accent-gold)' }}><Mail size={18} /></a>
+              </div>
+            </div>
+
+            {/* Diagnostic readout block */}
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
+              <div className="hud-panel glass-panel pulse-glow" style={{ width: '100%' }}>
+                <h3 className="hud-title" style={{ fontFamily: 'var(--font-display)', color: 'var(--accent-gold)', fontSize: '0.8rem', borderBottom: '1px solid var(--glass-border)', paddingBottom: '0.5rem' }}>
+                  Executive Profile Diagnostic
+                </h3>
+                <div className="hud-readings" style={{ marginTop: '1rem' }}>
+                  <div className="hud-row">
+                    <span className="hud-label">Academic Tier:</span>
+                    <span className="hud-val-cyan" style={{ color: 'var(--accent-gold)' }}>CSE Batch 22-26</span>
                   </div>
-                  
-                  <p className="hero-description">
-                  Completed graduation from VIT-AP in CSE-CORE, specializing in exploratory data analysis, machine learning algorithms, deep neural network training, and secure cloud pipelines.
-                  </p>
-                  
-                  <div className="hero-actions">
-                    <button 
-                      onClick={() => setActiveTab('Projects')}
-                      className="btn-cyber"
-                    >
-                      <span>View Engineering Sandbox</span>
-                      <ExternalLink size={14} />
-                    </button>
+                  <div className="hud-row">
+                    <span className="hud-label">Cumulative GPA:</span>
+                    <span className="hud-val-green" style={{ color: '#86efac', fontWeight: '700' }}>8.13 / 10.0</span>
+                  </div>
+                  <div className="hud-row">
+                    <span className="hud-label">Focus Scope:</span>
+                    <span className="hud-val-magenta" style={{ color: 'var(--accent-purple)' }}>Data Science & ML</span>
+                  </div>
+                  <div className="hud-row">
+                    <span className="hud-label">System Core:</span>
+                    <span className="hud-val-yellow" style={{ color: 'var(--accent-gold)' }}>AWS Academy Grad</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ==================== SECTION 2: ABOUT ME ==================== */}
+        <section id="about" className="section animate-section">
+          <div className="section-header">
+            <h2 className="section-title">About Me</h2>
+            <p className="section-desc">Background diagnostic, technical profile mission, and vision targets.</p>
+          </div>
+
+          <div className="about-grid">
+            {/* Sliding Profile Photo */}
+            <div className="about-photo-card">
+              <img src={heroImage} alt="Aditya Vats" className="about-photo-element" />
+            </div>
+
+            {/* Mission & Vision Cards */}
+            <div>
+              <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', lineHeight: '1.7', margin: '0' }}>
+                I am Aditya Vats, pursuing a B.Tech in Computer Science and Engineering at VIT-AP University. Guided by industry-standard systems engineering protocols, I specialize in pre-processing raw datasets, configuring machine learning hyperparameters, evaluating deep neural networks, and deploying cloud telemetry metrics.
+              </p>
+
+              <div className="about-3d-cards">
+                <div className="flip-card-3d">
+                  <div className="flip-card-inner mission">
+                    <div className="flip-card-front">
+                      <div className="flip-card-title">
+                        <Trophy size={16} />
+                        <span>Core Mission</span>
+                      </div>
+                      <p className="flip-card-text">
+                        To construct scalable, predictive AI solutions that bridge the gap between complex algorithmic structures and practical human utility.
+                      </p>
+                    </div>
                   </div>
                 </div>
 
-                {/* Profile Photo and HUD */}
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
-                  <img 
-                    src={heroImage} 
-                    alt="Aditya Vats" 
-                    style={{ 
-                      width: '160px', 
-                      height: '160px', 
-                      borderRadius: '50%', 
-                      objectFit: 'cover', 
-                      border: '4px solid #ffffff', 
-                      boxShadow: '0 10px 30px rgba(79, 70, 229, 0.15)', 
-                      marginBottom: '1.5rem' 
-                    }} 
+                <div className="flip-card-3d">
+                  <div className="flip-card-inner vision">
+                    <div className="flip-card-front">
+                      <div className="flip-card-title">
+                        <Activity size={16} />
+                        <span>Core Vision</span>
+                      </div>
+                      <p className="flip-card-text">
+                        To pioneer cloud-native machine learning pipelines that solve high-impact industrial problems with transparency and verified performance.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* View My Work Buttons */}
+              <div className="about-work-links">
+                <button onClick={() => smoothScrollTo('experience')} className="about-nav-btn">
+                  <Briefcase size={12} />
+                  <span>Work Experience</span>
+                </button>
+                <button onClick={() => smoothScrollTo('education')} className="about-nav-btn">
+                  <GraduationCap size={12} />
+                  <span>Education</span>
+                </button>
+                <button onClick={() => smoothScrollTo('projects')} className="about-nav-btn">
+                  <FolderGit2 size={12} />
+                  <span>Projects</span>
+                </button>
+                <button onClick={() => smoothScrollTo('skills')} className="about-nav-btn">
+                  <Brain size={12} />
+                  <span>Skills Matrix</span>
+                </button>
+                <button onClick={() => smoothScrollTo('certifications')} className="about-nav-btn">
+                  <Award size={12} />
+                  <span>Certifications</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ==================== SECTION 3: EXPERIENCE ==================== */}
+        <section id="experience" className="section animate-section">
+          <div className="section-header">
+            <h2 className="section-title">Work Experience</h2>
+            <p className="section-desc">Summer internships and corporate integrations.</p>
+          </div>
+          <Experience />
+        </section>
+
+        {/* ==================== SECTION 4: EDUCATION ==================== */}
+        <section id="education" className="section animate-section">
+          <div className="section-header">
+            <h2 className="section-title">Education</h2>
+            <p className="section-desc">Academic path and timeline milestones.</p>
+          </div>
+          <EducationTimeline />
+        </section>
+
+        {/* ==================== SECTION 5: PROJECTS ==================== */}
+        <section id="projects" className="section animate-section">
+          <div className="section-header">
+            <h2 className="section-title">Engineering Sandbox</h2>
+            <p className="section-desc">Interactive code modules, QQML experiments, and ATS analyzers.</p>
+          </div>
+          <ProjectsSandbox />
+        </section>
+
+        {/* ==================== SECTION 6: SKILLS ==================== */}
+        <section id="skills" className="section animate-section">
+          <div className="section-header">
+            <h2 className="section-title">Skills Matrix</h2>
+            <p className="section-desc">Full spectrum analysis of computational skills and cloud capabilities.</p>
+          </div>
+          <SkillsMatrix />
+        </section>
+
+        {/* ==================== SECTION 7: CERTIFICATIONS ==================== */}
+        <section id="certifications" className="section animate-section">
+          <div className="section-header">
+            <h2 className="section-title">Verified Credentials</h2>
+            <p className="section-desc">Course completions, professional provider licenses, and academic credits.</p>
+          </div>
+          <Certificates />
+        </section>
+
+        {/* ==================== SECTION 8: ACHIEVEMENTS ==================== */}
+        <section id="achievements" className="section animate-section">
+          <div className="section-header">
+            <h2 className="section-title">Achievements</h2>
+            <p className="section-desc">Executive indicators and honors recognition records.</p>
+          </div>
+
+          {/* 4 Stat Counters */}
+          <div className="achievements-stats-grid">
+            <div className="stat-counter-box glass-panel" style={{ padding: '1.5rem', textAlign: 'center', display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+              <span style={{ fontSize: '1.75rem', fontWeight: '800', fontFamily: 'var(--font-display)', color: 'var(--accent-gold)' }}>1+</span>
+              <span style={{ fontSize: '0.65rem', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Years Experience</span>
+            </div>
+            <div className="stat-counter-box glass-panel" style={{ padding: '1.5rem', textAlign: 'center', display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+              <span style={{ fontSize: '1.75rem', fontWeight: '800', fontFamily: 'var(--font-display)', color: 'var(--accent-gold)' }}>5</span>
+              <span style={{ fontSize: '0.65rem', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Certifications</span>
+            </div>
+            <div className="stat-counter-box glass-panel" style={{ padding: '1.5rem', textAlign: 'center', display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+              <span style={{ fontSize: '1.75rem', fontWeight: '800', fontFamily: 'var(--font-display)', color: 'var(--accent-gold)' }}>3</span>
+              <span style={{ fontSize: '0.65rem', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Core Projects</span>
+            </div>
+            <div className="stat-counter-box glass-panel" style={{ padding: '1.5rem', textAlign: 'center', display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+              <span style={{ fontSize: '1.75rem', fontWeight: '800', fontFamily: 'var(--font-display)', color: 'var(--accent-gold)' }}>2</span>
+              <span style={{ fontSize: '0.65rem', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>System Awards</span>
+            </div>
+          </div>
+
+          {/* Achievement cards list */}
+          <div className="achievement-cards-grid">
+            <div className="achievement-card-wrapper glass-panel" style={{ padding: '1.75rem', display: 'flex', gap: '1.25rem', alignItems: 'flex-start' }}>
+              <div className="trophy-logo-glow" style={{ background: 'rgba(245, 158, 11, 0.08)', padding: '0.75rem', borderRadius: '10px', display: 'flex', color: 'var(--accent-gold)', flexShrink: 0 }}>
+                <Trophy size={22} />
+              </div>
+              <div>
+                <span className="skill-badge badge-gate" style={{ fontSize: '0.55rem', fontWeight: '700', textTransform: 'uppercase' }}>Academic Excellence</span>
+                <span style={{ float: 'right', fontSize: '0.7rem', color: 'var(--text-dark)', fontFamily: 'var(--font-mono)' }}>2024</span>
+                <h4 style={{ fontSize: '0.85rem', color: 'var(--text-primary)', fontWeight: '700', margin: '0.5rem 0 0.25rem 0' }}>B.Tech CSE Merit List</h4>
+                <span style={{ fontSize: '0.65rem', color: 'var(--text-dark)' }}>VIT-AP University</span>
+                <p style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', lineHeight: '1.5', marginTop: '0.5rem' }}>
+                  Recognized in the top academic tier of the Computer Science and Engineering department batch at VIT-AP for maintaining consistent technical standards and a GPA of 8.13/10.
+                </p>
+              </div>
+            </div>
+
+            <div className="achievement-card-wrapper glass-panel" style={{ padding: '1.75rem', display: 'flex', gap: '1.25rem', alignItems: 'flex-start' }}>
+              <div className="trophy-logo-glow" style={{ background: 'rgba(245, 158, 11, 0.08)', padding: '0.75rem', borderRadius: '10px', display: 'flex', color: 'var(--accent-gold)', flexShrink: 0 }}>
+                <ShieldCheck size={22} />
+              </div>
+              <div>
+                <span className="skill-badge badge-aws" style={{ fontSize: '0.55rem', fontWeight: '700', textTransform: 'uppercase' }}>Cloud Authority</span>
+                <span style={{ float: 'right', fontSize: '0.7rem', color: 'var(--text-dark)', fontFamily: 'var(--font-mono)' }}>2024</span>
+                <h4 style={{ fontSize: '0.85rem', color: 'var(--text-primary)', fontWeight: '700', margin: '0.5rem 0 0.25rem 0' }}>AWS Cloud Architecting Graduate</h4>
+                <span style={{ fontSize: '0.65rem', color: 'var(--text-dark)' }}>AWS Academy Portal</span>
+                <p style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', lineHeight: '1.5', marginTop: '0.5rem' }}>
+                  Successfully scored 90%+ in cloud architecting core assessments, verifying capability in VPC design, IAM identity mapping, scaling computations, and storage protocols.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ==================== SECTION 9: CONTACT ==================== */}
+        <section id="contact" className="section animate-section">
+          <div className="contact-grid">
+            
+            {/* Left Column: Form with Floating Labels */}
+            <div className="contact-left-form-wrap contact-form-panel glass-panel">
+              <h3 className="hud-title" style={{ fontFamily: 'var(--font-display)', color: 'var(--accent-gold)', fontSize: '0.85rem', borderBottom: '1px solid var(--glass-border)', paddingBottom: '0.5rem', margin: '0 0 1rem 0' }}>
+                Send Transmission
+              </h3>
+
+              <form onSubmit={handleContactSubmit} className="contact-form-wrapper">
+                <div className="contact-form-group-floating">
+                  <input
+                    type="text"
+                    required
+                    placeholder=" "
+                    value={contactForm.name}
+                    onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
+                    className="contact-form-input-floating"
                   />
-                  <div className="glass-panel" style={{ width: '100%', padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                    <h3 style={{ fontSize: '1rem', fontWeight: '600', color: 'var(--text-primary)', borderBottom: '1px solid rgba(15, 23, 42, 0.05)', paddingBottom: '0.5rem', marginBottom: '0.25rem' }}>
-                      Education & Focus
-                    </h3>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', fontSize: '0.875rem' }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <span style={{ color: 'var(--text-secondary)', fontWeight: '500' }}>Degree:</span>
-                        <span style={{ color: 'var(--text-primary)', fontWeight: '600' }}>B.Tech in Computer Science</span>
-                      </div>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <span style={{ color: 'var(--text-secondary)', fontWeight: '500' }}>Graduation Year:</span>
-                        <span style={{ color: 'var(--text-primary)', fontWeight: '600' }}>Class of 2026</span>
-                      </div>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <span style={{ color: 'var(--text-secondary)', fontWeight: '500' }}>Cumulative GPA:</span>
-                        <span style={{ color: 'var(--accent-green)', fontWeight: '600' }}>8.13 / 10.0</span>
-                      </div>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <span style={{ color: 'var(--text-secondary)', fontWeight: '500' }}>Key Focus:</span>
-                        <span style={{ color: 'var(--text-primary)', fontWeight: '600' }}>Data Science, ML & AI</span>
-                      </div>
-                    </div>
+                  <label className="contact-form-label-floating">Full Name</label>
+                </div>
+
+                <div className="contact-form-group-floating">
+                  <input
+                    type="email"
+                    required
+                    placeholder=" "
+                    value={contactForm.email}
+                    onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
+                    className="contact-form-input-floating"
+                  />
+                  <label className="contact-form-label-floating">Email Address</label>
+                </div>
+
+                <div className="contact-form-group-floating">
+                  <input
+                    type="text"
+                    required
+                    placeholder=" "
+                    value={contactForm.subject}
+                    onChange={(e) => setContactForm({ ...contactForm, subject: e.target.value })}
+                    className="contact-form-input-floating"
+                  />
+                  <label className="contact-form-label-floating">Subject</label>
+                </div>
+
+                <div className="contact-form-group-floating">
+                  <textarea
+                    required
+                    rows={3}
+                    placeholder=" "
+                    value={contactForm.message}
+                    onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
+                    className="contact-form-input-floating"
+                    style={{ resize: 'vertical' }}
+                  ></textarea>
+                  <label className="contact-form-label-floating">Message Payload</label>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={formStatus === 'sending'}
+                  className="btn-cyber-shimmer"
+                  style={{ width: '100%', outline: 'none' }}
+                >
+                  {formStatus === 'sending' ? (
+                    <span style={{ color: 'var(--accent-gold)' }}>Transmitting Signal...</span>
+                  ) : formStatus === 'success' ? (
+                    <span style={{ color: '#86efac' }}>Transmission Dispatched</span>
+                  ) : (
+                    <>
+                      <span>Dispatch Transmission</span>
+                      <Send size={12} />
+                    </>
+                  )}
+                </button>
+              </form>
+            </div>
+
+            {/* Right Column: Connection Links */}
+            <div className="contact-right-info-wrap contact-info-col">
+              <div className="section-header" style={{ textAlign: 'left', marginBottom: '1.5rem' }}>
+                <h2 className="section-title" style={{ fontSize: '1.75rem' }}>Establish Link</h2>
+                <p className="section-desc" style={{ margin: '0', fontSize: '0.8rem' }}>
+                  Always looking for professional opportunities in ML engineering, analytics, and data pipeline development.
+                </p>
+              </div>
+
+              <div className="contact-info-cards">
+                <div className="contact-info-card glass-panel contact-info-row-slide">
+                  <div className="contact-card-icon-box cyan" style={{ color: 'var(--accent-gold)' }}>
+                    <GraduationCap size={20} />
+                  </div>
+                  <div className="contact-card-details">
+                    <span className="contact-card-label">Primary Institution</span>
+                    <span className="contact-card-val">VIT-AP University, India</span>
+                  </div>
+                </div>
+
+                <div className="contact-info-card glass-panel contact-info-row-slide">
+                  <div className="contact-card-icon-box green" style={{ color: 'var(--accent-gold)' }}>
+                    <Github size={20} />
+                  </div>
+                  <div className="contact-card-details">
+                    <span className="contact-card-label">Git Endpoints</span>
+                    <a 
+                      href="https://github.com/adityavats21" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="contact-card-val link"
+                      style={{ color: 'var(--accent-gold)' }}
+                    >
+                      github.com/adityavats21
+                    </a>
+                  </div>
+                </div>
+
+                <div className="contact-info-card glass-panel contact-info-row-slide">
+                  <div className="contact-card-icon-box magenta" style={{ color: 'var(--accent-gold)' }}>
+                    <Mail size={20} />
+                  </div>
+                  <div className="contact-card-details">
+                    <span className="contact-card-label">Signal Router (Email)</span>
+                    <a 
+                      href="mailto:vatsaditya21@gmail.com"
+                      className="contact-card-val link"
+                      style={{ color: 'var(--accent-gold)' }}
+                    >
+                      vatsaditya21@gmail.com
+                    </a>
                   </div>
                 </div>
               </div>
-
-              {/* Recruiter Capabilities Board */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginTop: '1rem' }}>
-                <h3 className="recruiter-board-title">
-                  Core Competencies & Engineering Value
-                </h3>
-                <div className="recruiter-board-grid">
-                  <div className="recruiter-card glass-panel">
-                    <div className="recruiter-card-header">
-                      <div className="recruiter-card-icon-box icon-blue">
-                        <Brain size={18} />
-                      </div>
-                      <h4 className="recruiter-card-title">Machine Learning</h4>
-                    </div>
-                    <p className="recruiter-card-desc">
-                      Building predictive engines using classification, regression, clustering, and decision trees. Experienced in cross-validation and hyperparameter tuning.
-                    </p>
-                  </div>
-
-                  <div className="recruiter-card glass-panel">
-                    <div className="recruiter-card-header">
-                      <div className="recruiter-card-icon-box icon-green">
-                        <Activity size={18} className="status-indicator-green" />
-                      </div>
-                      <h4 className="recruiter-card-title">Data Science & Workflow</h4>
-                    </div>
-                    <p className="recruiter-card-desc">
-                      Applying EDA, handling missing values, feature engineering, and deploying data cleaning algorithms to optimize raw dataset pipelines.
-                    </p>
-                  </div>
-
-                  <div className="recruiter-card glass-panel">
-                    <div className="recruiter-card-header">
-                      <div className="recruiter-card-icon-box icon-purple">
-                        <GraduationCap size={18} />
-                      </div>
-                      <h4 className="recruiter-card-title">Deep Neural Networks</h4>
-                    </div>
-                    <p className="recruiter-card-desc">
-                      Designing neural networks (ANN/MLP), configuring loss functions, learning rates, and early stopping triggers using TensorFlow/Keras.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
             </div>
-          )}
+          </div>
+        </section>
 
-          {/* TAB 2: SKILLS */}
-          {activeTab === 'Skills' && (
-            <div className="animate-fadeIn">
-              <div className="section-header">
-                <h2 className="section-title">
-                  Skills Matrix
-                </h2>
-                <p className="section-desc">
-                  Full stack of analytics skills, machine learning algorithms, deep neural network hyperparameters, and cloud foundations.
-                </p>
-              </div>
-              <SkillsMatrix />
-            </div>
-          )}
-
-          {/* TAB 3: EXPERIENCE */}
-          {activeTab === 'Experience' && (
-            <div className="animate-fadeIn">
-              <div className="section-header">
-                <h2 className="section-title">
-                  Professional Experience
-                </h2>
-                <p className="section-desc">
-                  Summary of summer internships, full-stack developments, and industry collaborations.
-                </p>
-              </div>
-              <Experience />
-            </div>
-          )}
-
-          {/* TAB 4: CERTIFICATES */}
-          {activeTab === 'Certificates' && (
-            <div className="animate-fadeIn">
-              <div className="section-header">
-                <h2 className="section-title">
-                  Verified Credentials
-                </h2>
-                <p className="section-desc">
-                  AWS certifications, Deloitte simulations, and professional qualifications.
-                </p>
-              </div>
-              <Certificates />
-            </div>
-          )}
-
-          {/* TAB 5: PROJECTS */}
-          {activeTab === 'Projects' && (
-            <div className="animate-fadeIn">
-              <div className="section-header">
-                <h2 className="section-title">
-                  Engineering Sandbox
-                </h2>
-                <p className="section-desc">
-                  Interactive implementations. Run simulations on Qiskit quantum models, stock trackers, or keyword extraction scripts.
-                </p>
-              </div>
-              <ProjectsSandbox />
-            </div>
-          )}
-
-          {/* TAB 6: EDUCATION */}
-          {activeTab === 'Education' && (
-            <div className="animate-fadeIn">
-              <div className="section-header">
-                <h2 className="section-title">
-                  Timeline & Milestones
-                </h2>
-                <p className="section-desc">
-                  Academic records and AWS Academy Cloud foundations certification details.
-                </p>
-              </div>
-              <EducationTimeline />
-            </div>
-          )}
-
-          {/* TAB 7: CONTACT */}
-          {activeTab === 'Contact' && (
-            <div className="contact-grid">
-              {/* Left Column: Info & Connect */}
-              <div className="contact-info-col">
-                <div className="section-header">
-                  <h2 className="section-title">
-                    Get in Touch
-                  </h2>
-                  <p className="section-desc">
-                    Connect directly. Always looking for professional collaborations in ML and data science.
-                  </p>
-                </div>
-
-                <div className="contact-info-cards">
-                  <div className="contact-info-card glass-panel">
-                    <div className="contact-card-icon-box cyan">
-                      <GraduationCap size={20} />
-                    </div>
-                    <div className="contact-card-details">
-                      <span className="contact-card-label">Institution</span>
-                      <span className="contact-card-val">VIT-AP University, India</span>
-                    </div>
-                  </div>
-
-                  <div className="contact-info-card glass-panel">
-                    <div className="contact-card-icon-box green">
-                      <Github size={20} />
-                    </div>
-                    <div className="contact-card-details">
-                      <span className="contact-card-label">GitHub Account</span>
-                      <a 
-                        href="https://github.com/adityavats21" 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="contact-card-val link"
-                      >
-                        github.com/adityavats21
-                      </a>
-                    </div>
-                  </div>
-
-                  <div className="contact-info-card glass-panel">
-                    <div className="contact-card-icon-box magenta">
-                      <Mail size={20} />
-                    </div>
-                    <div className="contact-card-details">
-                      <span className="contact-card-label">Email Address</span>
-                      <a 
-                        href="mailto:vatsaditya21@gmail.com"
-                        className="contact-card-val link"
-                      >
-                        vatsaditya21@gmail.com
-                      </a>
-                    </div>
-                  </div>
-
-                  <div className="contact-info-card glass-panel">
-                    <div className="contact-card-icon-box cyan" style={{ color: 'var(--accent-purple)', background: 'rgba(124, 58, 237, 0.08)' }}>
-                      <LeetCodeIcon size={20} />
-                    </div>
-                    <div className="contact-card-details">
-                      <span className="contact-card-label">LeetCode Portfolio</span>
-                      <a 
-                        href="https://leetcode.com/u/adityavats21" 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="contact-card-val link"
-                      >
-                        leetcode.com/u/adityavats21
-                      </a>
-                    </div>
-                  </div>
-
-                  <div className="contact-info-card glass-panel">
-                    <div className="contact-card-icon-box green" style={{ color: 'var(--accent-green)', background: 'rgba(16, 185, 129, 0.08)' }}>
-                      <HackerRankIcon size={20} />
-                    </div>
-                    <div className="contact-card-details">
-                      <span className="contact-card-label">HackerRank Profile</span>
-                      <a 
-                        href="https://www.hackerrank.com/profile/vatsaditya21" 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="contact-card-val link"
-                      >
-                        hackerrank.com/vatsaditya21
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Right Column: Dynamic Form */}
-              <div className="contact-form-panel glass-panel">
-                <h3 className="hud-title">
-                  Send Message
-                </h3>
-
-                <form onSubmit={handleContactSubmit} className="contact-form-wrapper">
-                  <div className="contact-form-group">
-                    <label className="contact-form-label">Your Name</label>
-                    <input
-                      type="text"
-                      required
-                      value={contactForm.name}
-                      onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
-                      className="contact-form-input"
-                      placeholder="Enter your name..."
-                    />
-                  </div>
-
-                  <div className="contact-form-group">
-                    <label className="contact-form-label">Your Email</label>
-                    <input
-                      type="email"
-                      required
-                      value={contactForm.email}
-                      onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
-                      className="contact-form-input"
-                      placeholder="Enter your email..."
-                    />
-                  </div>
-
-                  <div className="contact-form-group">
-                    <label className="contact-form-label">Message</label>
-                    <textarea
-                      required
-                      rows={4}
-                      value={contactForm.message}
-                      onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
-                      className="contact-form-input"
-                      style={{ resize: 'vertical' }}
-                      placeholder="Enter your message..."
-                    ></textarea>
-                  </div>
-
-                  <button
-                    type="submit"
-                    disabled={formStatus === 'sending'}
-                    className="btn-cyber"
-                    style={{ width: '100%', justifyContent: 'center' }}
-                  >
-                    {formStatus === 'sending' ? (
-                      <span className="text-glow-cyan">Sending Message...</span>
-                    ) : formStatus === 'success' ? (
-                      <span className="text-glow-green">Message Sent</span>
-                    ) : (
-                      <>
-                        <span>Send Message</span>
-                        <Send size={12} />
-                      </>
-                    )}
-                  </button>
-                </form>
-              </div>
-            </div>
-          )}
-
-        </div>
       </main>
+
+      {/* Footer */}
+      <footer style={{ background: 'var(--bg-primary)', borderTop: '1px solid var(--glass-border)', padding: '2rem 1rem', textAlign: 'center', fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
+        <p style={{ margin: '0 0 0.5rem 0' }}>Designed & Engineered by <strong>Aditya Vats</strong></p>
+        <p style={{ margin: '0', opacity: 0.6, fontSize: '0.65rem' }}>Cum Laude CSE Graduate Class of 2026 // VIT-AP University</p>
+      </footer>
     </div>
   );
 }
