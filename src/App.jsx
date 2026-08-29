@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Brain, FolderGit2, GraduationCap, Mail, ExternalLink, Send, Briefcase, Award, Home, Trophy, BookOpen, ShieldCheck, Download } from 'lucide-react';
+import { Brain, FolderGit2, GraduationCap, Mail, ExternalLink, Send, Briefcase, Award, Home, Trophy, BookOpen, ShieldCheck, Download, Activity } from 'lucide-react';
 import SkillsMatrix from './components/SkillsMatrix';
 import ProjectsSandbox from './components/ProjectsSandbox';
 import EducationTimeline from './components/EducationTimeline';
