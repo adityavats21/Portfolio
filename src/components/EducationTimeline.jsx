@@ -9,10 +9,10 @@ const EducationTimeline = () => {
       subtitle: 'Computer Science & Engineering',
       institution: 'VIT-AP University',
       duration: '2022 - 2026',
-      description: 'Acquiring deep foundations in Computer Science, algorithms, systems, and specializing in Data Science & Machine Learning pipelines.',
+      description: 'Built deep foundations in Computer Science, algorithms, systems, and specialized in Data Science & Machine Learning pipelines.',
       metrics: [
         { label: 'Cumulative GPA', value: '8.13 / 10', icon: <Percent size={14} style={{ color: 'var(--accent-gold)' }} /> },
-        { label: 'Academic Status', value: 'Class of 2026', icon: <Calendar size={14} style={{ color: 'var(--accent-gold)' }} /> }
+        { label: 'Academic Status', value: 'Completed June 2026', icon: <Calendar size={14} style={{ color: 'var(--accent-gold)' }} /> }
       ]
     },
     {

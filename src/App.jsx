@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Brain, FolderGit2, GraduationCap, Mail, ExternalLink, Activity, Send, Briefcase, Award, Home, Trophy, BookOpen, ShieldCheck, HelpCircle, Download } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Brain, FolderGit2, GraduationCap, Mail, ExternalLink, Send, Briefcase, Award, Home, Trophy, BookOpen, ShieldCheck, Download } from 'lucide-react';
 import SkillsMatrix from './components/SkillsMatrix';
 import ProjectsSandbox from './components/ProjectsSandbox';
 import EducationTimeline from './components/EducationTimeline';
@@ -25,6 +25,25 @@ const Github = ({ size = 20, className = "" }) => (
   </svg>
 );
 
+const LinkedinIcon = ({ size = 20, className = "" }) => (
+  <svg 
+    xmlns="http://www.w3.org/2000/svg" 
+    width={size} 
+    height={size} 
+    viewBox="0 0 24 24" 
+    fill="none" 
+    stroke="currentColor" 
+    strokeWidth="2" 
+    strokeLinecap="round" 
+    strokeLinejoin="round" 
+    className={className}
+  >
+    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+    <rect x="2" y="9" width="4" height="12" />
+    <circle cx="4" cy="4" r="2" />
+  </svg>
+);
+
 const LeetCodeIcon = ({ size = 20, className = "" }) => (
   <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
     <polyline points="16 18 22 12 16 6" />
@@ -43,55 +62,16 @@ const HackerRankIcon = ({ size = 20, className = "" }) => (
 
 function App() {
   const [activeTab, setActiveTab] = useState('Home');
-  const [typedTitle, setTypedTitle] = useState('');
-  const canvasRef = useRef(null);
   
   // Contact Form State
   const [contactForm, setContactForm] = useState({ name: '', email: '', subject: '', message: '' });
-  const [formStatus, setFormStatus] = useState(null); // 'sending' | 'success'
+  const [formStatus, setFormStatus] = useState(null); // 'sending' | 'success' | 'error'
 
-  const titles = ['Data Analyst', 'Machine Learning Engineer', 'Deep Learning Specialist'];
-  
-  // Typewriter effect
-  useEffect(() => {
-    let titleIdx = 0;
-    let charIdx = 0;
-    let isDeleting = false;
-    let typingSpeed = 100;
-    
-    const handleType = () => {
-      const currentTitle = titles[titleIdx];
-      if (isDeleting) {
-        setTypedTitle(currentTitle.substring(0, charIdx - 1));
-        charIdx--;
-        typingSpeed = 50;
-      } else {
-        setTypedTitle(currentTitle.substring(0, charIdx + 1));
-        charIdx++;
-        typingSpeed = 100;
-      }
-
-      if (!isDeleting && charIdx === currentTitle.length) {
-        isDeleting = true;
-        typingSpeed = 2000;
-      } else if (isDeleting && charIdx === 0) {
-        isDeleting = false;
-        titleIdx = (titleIdx + 1) % titles.length;
-        typingSpeed = 500;
-      }
-
-      setTimeout(handleType, typingSpeed);
-    };
-
-    const typeTimeout = setTimeout(handleType, 1000);
-    return () => clearTimeout(typeTimeout);
-  }, []);
-
-  // Intersection Observer for scroll animations
+  // Intersection Observer for subtle scroll animations
   useEffect(() => {
     const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -100px 0px'
+      threshold: 0.05,
+      rootMargin: '0px 0px -50px 0px'
     };
 
     const observer = new IntersectionObserver((entries) => {
@@ -118,14 +98,12 @@ function App() {
         const el = document.getElementById(id);
         if (el) {
           const rect = el.getBoundingClientRect();
-          // Highlight when section occupies the major part of viewport
           if (rect.top <= window.innerHeight * 0.35) {
             currentSection = id;
           }
         }
       }
 
-      // Map id back to display name
       const idToNameMap = {
         home: 'Home',
         about: 'About Me',
@@ -145,83 +123,36 @@ function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Canvas floating bubbles background
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const ctx = canvas.getContext('2d');
-    let animationFrameId;
-
-    let width = (canvas.width = window.innerWidth);
-    let height = (canvas.height = window.innerHeight);
-
-    const particles = [];
-    const maxParticles = 30;
-
-    class Particle {
-      constructor() {
-        this.x = Math.random() * width;
-        this.y = Math.random() * height;
-        this.vx = (Math.random() - 0.5) * 0.12;
-        this.vy = (Math.random() - 0.5) * 0.12;
-        this.radius = Math.random() * 6 + 3;
-        this.alpha = Math.random() * 0.1 + 0.03;
-      }
-
-      update() {
-        this.x += this.vx;
-        this.y += this.vy;
-
-        if (this.x < 0 || this.x > width) this.vx = -this.vx;
-        if (this.y < 0 || this.y > height) this.vy = -this.vy;
-      }
-
-      draw() {
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(245, 158, 11, ${this.alpha})`; // Champagne Gold tint
-        ctx.fill();
-      }
-    }
-
-    for (let i = 0; i < maxParticles; i++) {
-      particles.push(new Particle());
-    }
-
-    const handleResize = () => {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
-    };
-    window.addEventListener('resize', handleResize);
-
-    const animate = () => {
-      ctx.clearRect(0, 0, width, height);
-
-      particles.forEach((p) => {
-        p.update();
-        p.draw();
-      });
-
-      animationFrameId = requestAnimationFrame(animate);
-    };
-
-    animate();
-
-    return () => {
-      cancelAnimationFrame(animationFrameId);
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
-
-  const handleContactSubmit = (e) => {
+  // Real Formspree Submit Handler
+  const handleContactSubmit = async (e) => {
     e.preventDefault();
     setFormStatus('sending');
-    setTimeout(() => {
-      setFormStatus('success');
-      setContactForm({ name: '', email: '', subject: '', message: '' });
-      setTimeout(() => setFormStatus(null), 3000);
-    }, 1500);
+
+    // Configurable Formspree form ID (vatsaditya21@gmail.com endpoint target)
+    const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xvgopkzw';
+
+    try {
+      const response = await fetch(FORMSPREE_ENDPOINT, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(contactForm)
+      });
+
+      if (response.ok) {
+        setFormStatus('success');
+        setContactForm({ name: '', email: '', subject: '', message: '' });
+        setTimeout(() => setFormStatus(null), 4000);
+      } else {
+        setFormStatus('error');
+        setTimeout(() => setFormStatus(null), 5000);
+      }
+    } catch (error) {
+      setFormStatus('error');
+      setTimeout(() => setFormStatus(null), 5000);
+    }
   };
 
   const smoothScrollTo = (id) => {
@@ -245,17 +176,11 @@ function App() {
 
   return (
     <div className="app-wrapper">
-      {/* Background canvas and visual grids */}
-      <canvas ref={canvasRef} style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', zIndex: -3, pointerEvents: 'none' }} />
-      <div className="bg-grid" />
-      <div className="bg-radial" />
-
       {/* Sticky Navigation Bar */}
       <header className="header-navbar">
         <div className="nav-brand">
-          <span className="nav-dot" style={{ backgroundColor: 'var(--accent-gold)' }}></span>
           <h1 className="nav-logo-text">
-            ADITYA<span>.VATS</span>
+            ADITYA<span>VATS</span>
           </h1>
         </div>
 
@@ -277,18 +202,13 @@ function App() {
             target="_blank"
             rel="noopener noreferrer"
             className="nav-social-btn"
-            style={{ color: 'var(--accent-gold)' }}
           >
-            <Github size={18} />
+            <Github size={20} />
           </a>
-          <div className="nav-system-status">
-            <Activity size={12} className="status-indicator-green" style={{ color: 'var(--accent-gold)' }} />
-            <span>Telemetry Active</span>
-          </div>
         </div>
       </header>
 
-      {/* Mobile Sticky Footer Menu */}
+      {/* Mobile Sticky Menu */}
       <div className="mobile-navbar">
         {[
           { id: 'home', name: 'Home', icon: <Home size={18} /> },
@@ -310,33 +230,30 @@ function App() {
         ))}
       </div>
 
-      {/* Main Single-Page Content */}
+      {/* Main Container */}
       <main className="main-container" style={{ paddingBottom: '100px' }}>
         
-        {/* ==================== SECTION 1: LANDING ==================== */}
+        {/* ==================== SECTION 1: HERO ==================== */}
         <section id="home" className="section animate-section">
           <div className="hero-hud-grid">
             <div className="hero-text">
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
-                <span className="hero-tagline" style={{ color: 'var(--accent-gold)' }}>
-                  VIT-AP UNIVERSITY // COMPUTER SCIENCE DEPT
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                <span className="hero-tagline">
+                  Data Scientist & ML Engineer
                 </span>
-                <h2 className="hero-title" style={{ fontFamily: 'var(--font-display)', fontWeight: '900', letterSpacing: '-1px' }}>
-                  Aditya Vats
+                <h2 className="hero-title">
+                  I'm Aditya Vats.
                 </h2>
-                <div className="typewriter-container" style={{ height: '35px' }}>
-                  <span className="hero-typed" style={{ color: 'var(--accent-gold)', fontSize: '1.2rem', fontFamily: 'var(--font-mono)' }}>
-                    {typedTitle}
-                    <span className="typewriter" style={{ background: 'var(--accent-gold)' }}></span>
-                  </span>
-                </div>
+                <p style={{ color: 'var(--accent-blue)', fontSize: '1.25rem', fontWeight: '600', margin: '0' }}>
+                  Specializing in Data Science, Machine Learning, and GenAI Pipelines
+                </p>
               </div>
               
-              <p className="hero-description" style={{ color: 'var(--text-secondary)', lineHeight: '1.7', fontSize: '0.9rem', marginTop: '1rem' }}>
-                B.Tech CSE Graduate (Completed June 2026, 8.13 CGPA) with hands-on experience in SQL, Excel, and Power BI/Tableau dashboarding for data analysis and business intelligence reporting. Skilled in exploratory data analysis, statistical modeling, and Python for translating large datasets into actionable insights.
+              <p className="hero-description">
+                B.Tech CSE Graduate (Completed June 2026, 8.13 CGPA) with hands-on experience in SQL, Python, Power BI/Tableau dashboarding for data analysis and business intelligence reporting. Skilled in exploratory data analysis, statistical modeling, and Python for translating large datasets into actionable insights.
               </p>
               
-              <div className="hero-actions social-icon-wrapper" style={{ marginTop: '2rem' }}>
+              <div className="hero-actions">
                 <button 
                   onClick={() => smoothScrollTo('projects')}
                   className="btn-cyber-shimmer"
@@ -349,45 +266,45 @@ function App() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn-cyber-shimmer"
-                  style={{ textDecoration: 'none', background: 'transparent', borderColor: 'var(--glass-border)' }}
+                  style={{ background: 'transparent', border: '1px solid var(--glass-border)', color: 'var(--text-primary)' }}
                 >
-                  <Download size={14} />
-                  <span>Download Resume</span>
+                  <Download size={14} style={{ color: 'var(--text-primary)' }} />
+                  <span style={{ color: 'var(--text-primary)' }}>Download Resume</span>
                 </a>
               </div>
 
-              {/* Bounce-in Social Buttons */}
-              <div className="social-icon-wrapper" style={{ marginTop: '2.5rem' }}>
-                <a href="https://github.com/adityavats21" target="_blank" rel="noopener noreferrer" className="social-icon-btn nav-social-btn" style={{ color: 'var(--accent-gold)' }}><Github size={18} /></a>
-                <a href="https://www.linkedin.com/in/aditya-vats-760353247/" target="_blank" rel="noopener noreferrer" className="social-icon-btn nav-social-btn" style={{ color: 'var(--accent-gold)' }}><Briefcase size={18} /></a>
-                <a href="https://leetcode.com/u/adityavats21" target="_blank" rel="noopener noreferrer" className="social-icon-btn nav-social-btn" style={{ color: 'var(--accent-gold)' }}><LeetCodeIcon size={18} /></a>
-                <a href="https://www.hackerrank.com/profile/vatsaditya21" target="_blank" rel="noopener noreferrer" className="social-icon-btn nav-social-btn" style={{ color: 'var(--accent-gold)' }}><HackerRankIcon size={18} /></a>
-                <a href="mailto:vatsaditya21@gmail.com" className="social-icon-btn nav-social-btn" style={{ color: 'var(--accent-gold)' }}><Mail size={18} /></a>
+              {/* Social Channels */}
+              <div className="social-icon-wrapper" style={{ marginTop: '1.5rem' }}>
+                <a href="https://github.com/adityavats21" target="_blank" rel="noopener noreferrer" className="social-icon-btn nav-social-btn"><Github size={18} /></a>
+                <a href="https://www.linkedin.com/in/aditya-vats-760353247/" target="_blank" rel="noopener noreferrer" className="social-icon-btn nav-social-btn"><LinkedinIcon size={18} /></a>
+                <a href="https://leetcode.com/u/adityavats21" target="_blank" rel="noopener noreferrer" className="social-icon-btn nav-social-btn"><LeetCodeIcon size={18} /></a>
+                <a href="https://www.hackerrank.com/profile/vatsaditya21" target="_blank" rel="noopener noreferrer" className="social-icon-btn nav-social-btn"><HackerRankIcon size={18} /></a>
+                <a href="mailto:vatsaditya21@gmail.com" className="social-icon-btn nav-social-btn"><Mail size={18} /></a>
               </div>
             </div>
 
-            {/* Diagnostic readout block */}
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
-              <div className="hud-panel glass-panel pulse-glow" style={{ width: '100%' }}>
-                <h3 className="hud-title" style={{ fontFamily: 'var(--font-display)', color: 'var(--accent-gold)', fontSize: '0.8rem', borderBottom: '1px solid var(--glass-border)', paddingBottom: '0.5rem' }}>
-                  Executive Profile Diagnostic
+            {/* Profile Summary Card */}
+            <div>
+              <div className="hud-panel glass-panel">
+                <h3 className="hud-title">
+                  Profile Summary
                 </h3>
-                <div className="hud-readings" style={{ marginTop: '1rem' }}>
+                <div className="hud-readings">
                   <div className="hud-row">
-                    <span className="hud-label">Academic Tier:</span>
-                    <span className="hud-val-cyan" style={{ color: 'var(--accent-gold)' }}>B.Tech CSE Graduate</span>
+                    <span className="hud-label">Academic:</span>
+                    <span className="hud-val-cyan">B.Tech CSE Graduate</span>
                   </div>
                   <div className="hud-row">
                     <span className="hud-label">Cumulative GPA:</span>
-                    <span className="hud-val-green" style={{ color: '#86efac', fontWeight: '700' }}>8.13 / 10.0</span>
+                    <span className="hud-val-green">8.13 / 10.0</span>
                   </div>
                   <div className="hud-row">
-                    <span className="hud-label">Focus Scope:</span>
-                    <span className="hud-val-magenta" style={{ color: 'var(--accent-purple)' }}>Data Analytics & ML</span>
+                    <span className="hud-label">Focus Area:</span>
+                    <span className="hud-val-magenta">Data Analytics & ML</span>
                   </div>
                   <div className="hud-row">
-                    <span className="hud-label">System Core:</span>
-                    <span className="hud-val-yellow" style={{ color: 'var(--accent-gold)' }}>AWS Academy Graduate</span>
+                    <span className="hud-label">Credentials:</span>
+                    <span className="hud-val-yellow">AWS Academy Graduate</span>
                   </div>
                 </div>
               </div>
@@ -399,56 +316,54 @@ function App() {
         <section id="about" className="section animate-section">
           <div className="section-header">
             <h2 className="section-title">About Me</h2>
-            <p className="section-desc">Background diagnostic, technical profile mission, and vision targets.</p>
+            <p className="section-desc">Personal background, core mission statement, and career vision.</p>
           </div>
 
           <div className="about-grid">
-            {/* Sliding Profile Photo */}
             <div className="about-photo-card">
               <img src={heroImage} alt="Aditya Vats" className="about-photo-element" />
             </div>
 
-            {/* Mission & Vision Cards */}
             <div>
-              <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', lineHeight: '1.7', margin: '0' }}>
-                I am Aditya Vats, a B.Tech CSE Graduate (Completed June 2026) from VIT-AP University. Guided by industry-standard protocols, I specialize in exploratory data analysis, SQL query optimization, machine learning modeling, and data pipelines.
+              <p style={{ fontSize: '0.95rem', color: 'var(--text-secondary)', lineHeight: '1.7', margin: '0' }}>
+                I am Aditya Vats, a B.Tech CSE Graduate (Completed June 2026) from VIT-AP University. I build data-driven predictive systems, optimize database queries, and set up machine learning models. I specialize in exploratory data analysis, SQL query optimization, machine learning modeling, and data pipelines. While my work experience includes software development, my technical expertise and deep analytical skills are forged through building end-to-end data and machine learning projects.
               </p>
 
               <div className="about-3d-cards">
                 <div className="flip-card-3d">
-                  <div className="flip-card-inner mission">
+                  <div className="flip-card-inner">
                     <div className="flip-card-front">
                       <div className="flip-card-title">
                         <Trophy size={16} />
                         <span>Core Mission</span>
                       </div>
                       <p className="flip-card-text">
-                        To construct scalable, predictive AI solutions that bridge the gap between complex algorithmic structures and practical human utility.
+                        To construct scalable, predictive data systems and models that translate complex database parameters into real business indicators and actionable user assets.
                       </p>
                     </div>
                   </div>
                 </div>
 
                 <div className="flip-card-3d">
-                  <div className="flip-card-inner vision">
+                  <div className="flip-card-inner">
                     <div className="flip-card-front">
                       <div className="flip-card-title">
-                        <Activity size={16} />
+                        <Activity size={16} style={{ color: 'var(--accent-blue)' }} />
                         <span>Core Vision</span>
                       </div>
                       <p className="flip-card-text">
-                        To pioneer cloud-native machine learning pipelines that solve high-impact industrial problems with transparency and verified performance.
+                        To engineer transparent, reproducible data analyses and machine learning pipelines that resolve complex challenges with high performance.
                       </p>
                     </div>
                   </div>
                 </div>
               </div>
 
-              {/* View My Work Buttons */}
+              {/* Work Links Navigation shortcuts */}
               <div className="about-work-links">
                 <button onClick={() => smoothScrollTo('experience')} className="about-nav-btn">
                   <Briefcase size={12} />
-                  <span>Work Experience</span>
+                  <span>Experience</span>
                 </button>
                 <button onClick={() => smoothScrollTo('education')} className="about-nav-btn">
                   <GraduationCap size={12} />
@@ -460,7 +375,7 @@ function App() {
                 </button>
                 <button onClick={() => smoothScrollTo('skills')} className="about-nav-btn">
                   <Brain size={12} />
-                  <span>Skills Matrix</span>
+                  <span>Skills</span>
                 </button>
                 <button onClick={() => smoothScrollTo('certifications')} className="about-nav-btn">
                   <Award size={12} />
@@ -475,7 +390,7 @@ function App() {
         <section id="experience" className="section animate-section">
           <div className="section-header">
             <h2 className="section-title">Work Experience</h2>
-            <p className="section-desc">Summer internships and corporate integrations.</p>
+            <p className="section-desc">Summer internships, developer integrations, and schema designs.</p>
           </div>
           <Experience />
         </section>
@@ -484,7 +399,7 @@ function App() {
         <section id="education" className="section animate-section">
           <div className="section-header">
             <h2 className="section-title">Education</h2>
-            <p className="section-desc">Academic path and timeline milestones.</p>
+            <p className="section-desc">Academic path, core timelines, and coursework milestones.</p>
           </div>
           <EducationTimeline />
         </section>
@@ -492,8 +407,8 @@ function App() {
         {/* ==================== SECTION 5: PROJECTS ==================== */}
         <section id="projects" className="section animate-section">
           <div className="section-header">
-            <h2 className="section-title">Engineering Sandbox</h2>
-            <p className="section-desc">Interactive code modules, QQML experiments, and ATS analyzers.</p>
+            <h2 className="section-title">Projects</h2>
+            <p className="section-desc">Exploratory data analysis, machine learning models, and NLP parsers.</p>
           </div>
           <ProjectsSandbox />
         </section>
@@ -502,7 +417,7 @@ function App() {
         <section id="skills" className="section animate-section">
           <div className="section-header">
             <h2 className="section-title">Skills Matrix</h2>
-            <p className="section-desc">Full spectrum analysis of computational skills and cloud capabilities.</p>
+            <p className="section-desc">Technical catalog of statistics, database systems, and machine learning capabilities.</p>
           </div>
           <SkillsMatrix />
         </section>
@@ -520,25 +435,25 @@ function App() {
         <section id="achievements" className="section animate-section">
           <div className="section-header">
             <h2 className="section-title">Achievements</h2>
-            <p className="section-desc">Executive indicators and honors recognition records.</p>
+            <p className="section-desc">Academic honors, certificates earned, and core program indicators.</p>
           </div>
 
           {/* 4 Stat Counters */}
           <div className="achievements-stats-grid">
             <div className="stat-counter-box glass-panel" style={{ padding: '1.5rem', textAlign: 'center', display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
-              <span style={{ fontSize: '1.75rem', fontWeight: '800', fontFamily: 'var(--font-display)', color: 'var(--accent-gold)' }}>0.5+</span>
+              <span style={{ fontSize: '1.75rem', fontWeight: '800', color: 'var(--accent-blue)' }}>0.5+</span>
               <span style={{ fontSize: '0.65rem', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Years Experience</span>
             </div>
             <div className="stat-counter-box glass-panel" style={{ padding: '1.5rem', textAlign: 'center', display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
-              <span style={{ fontSize: '1.75rem', fontWeight: '800', fontFamily: 'var(--font-display)', color: 'var(--accent-gold)' }}>7</span>
+              <span style={{ fontSize: '1.75rem', fontWeight: '800', color: 'var(--accent-blue)' }}>7</span>
               <span style={{ fontSize: '0.65rem', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Certifications</span>
             </div>
             <div className="stat-counter-box glass-panel" style={{ padding: '1.5rem', textAlign: 'center', display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
-              <span style={{ fontSize: '1.75rem', fontWeight: '800', fontFamily: 'var(--font-display)', color: 'var(--accent-gold)' }}>5</span>
+              <span style={{ fontSize: '1.75rem', fontWeight: '800', color: 'var(--accent-blue)' }}>5</span>
               <span style={{ fontSize: '0.65rem', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Core Projects</span>
             </div>
             <div className="stat-counter-box glass-panel" style={{ padding: '1.5rem', textAlign: 'center', display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
-              <span style={{ fontSize: '1.75rem', fontWeight: '800', fontFamily: 'var(--font-display)', color: 'var(--accent-gold)' }}>2</span>
+              <span style={{ fontSize: '1.75rem', fontWeight: '800', color: 'var(--accent-blue)' }}>2</span>
               <span style={{ fontSize: '0.65rem', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>System Awards</span>
             </div>
           </div>
@@ -546,7 +461,7 @@ function App() {
           {/* Achievement cards list */}
           <div className="achievement-cards-grid">
             <div className="achievement-card-wrapper glass-panel" style={{ padding: '1.75rem', display: 'flex', gap: '1.25rem', alignItems: 'flex-start' }}>
-              <div className="trophy-logo-glow" style={{ background: 'rgba(245, 158, 11, 0.08)', padding: '0.75rem', borderRadius: '10px', display: 'flex', color: 'var(--accent-gold)', flexShrink: 0 }}>
+              <div style={{ background: 'var(--bg-tertiary)', padding: '0.75rem', borderRadius: '10px', display: 'flex', color: 'var(--accent-blue)', flexShrink: 0 }}>
                 <Trophy size={22} />
               </div>
               <div>
@@ -561,7 +476,7 @@ function App() {
             </div>
 
             <div className="achievement-card-wrapper glass-panel" style={{ padding: '1.75rem', display: 'flex', gap: '1.25rem', alignItems: 'flex-start' }}>
-              <div className="trophy-logo-glow" style={{ background: 'rgba(245, 158, 11, 0.08)', padding: '0.75rem', borderRadius: '10px', display: 'flex', color: 'var(--accent-gold)', flexShrink: 0 }}>
+              <div style={{ background: 'var(--bg-tertiary)', padding: '0.75rem', borderRadius: '10px', display: 'flex', color: 'var(--accent-blue)', flexShrink: 0 }}>
                 <ShieldCheck size={22} />
               </div>
               <div>
@@ -583,8 +498,8 @@ function App() {
             
             {/* Left Column: Form with Floating Labels */}
             <div className="contact-left-form-wrap contact-form-panel glass-panel">
-              <h3 className="hud-title" style={{ fontFamily: 'var(--font-display)', color: 'var(--accent-gold)', fontSize: '0.85rem', borderBottom: '1px solid var(--glass-border)', paddingBottom: '0.5rem', margin: '0 0 1rem 0' }}>
-                Send Transmission
+              <h3 className="hud-title" style={{ margin: '0 0 1.5rem 0' }}>
+                Send a Message
               </h3>
 
               <form onSubmit={handleContactSubmit} className="contact-form-wrapper">
@@ -634,7 +549,7 @@ function App() {
                     className="contact-form-input-floating"
                     style={{ resize: 'vertical' }}
                   ></textarea>
-                  <label className="contact-form-label-floating">Message Payload</label>
+                  <label className="contact-form-label-floating">Message Text</label>
                 </div>
 
                 <button
@@ -644,12 +559,14 @@ function App() {
                   style={{ width: '100%', outline: 'none' }}
                 >
                   {formStatus === 'sending' ? (
-                    <span style={{ color: 'var(--accent-gold)' }}>Transmitting Signal...</span>
+                    <span>Sending Message...</span>
                   ) : formStatus === 'success' ? (
-                    <span style={{ color: '#86efac' }}>Transmission Dispatched</span>
+                    <span style={{ color: '#86efac' }}>Message Dispatched</span>
+                  ) : formStatus === 'error' ? (
+                    <span style={{ color: '#fca5a5' }}>Error Dispatching Message</span>
                   ) : (
                     <>
-                      <span>Dispatch Transmission</span>
+                      <span>Send Message</span>
                       <Send size={12} />
                     </>
                   )}
@@ -660,15 +577,15 @@ function App() {
             {/* Right Column: Connection Links */}
             <div className="contact-right-info-wrap contact-info-col">
               <div className="section-header" style={{ textAlign: 'left', marginBottom: '1.5rem' }}>
-                <h2 className="section-title" style={{ fontSize: '1.75rem' }}>Establish Link</h2>
-                <p className="section-desc" style={{ margin: '0', fontSize: '0.8rem' }}>
-                  Always looking for professional opportunities in ML engineering, analytics, and data pipeline development.
+                <h2 className="section-title" style={{ fontSize: '1.75rem' }}>Get in Touch</h2>
+                <p className="section-desc" style={{ margin: '0', fontSize: '0.85rem' }}>
+                  Always looking for professional opportunities in data science, analytics, and machine learning pipeline development.
                 </p>
               </div>
 
               <div className="contact-info-cards">
-                <div className="contact-info-card glass-panel contact-info-row-slide">
-                  <div className="contact-card-icon-box cyan" style={{ color: 'var(--accent-gold)' }}>
+                <div className="contact-info-card glass-panel">
+                  <div className="contact-card-icon-box">
                     <GraduationCap size={20} />
                   </div>
                   <div className="contact-card-details">
@@ -677,42 +594,42 @@ function App() {
                   </div>
                 </div>
 
-                <div className="contact-info-card glass-panel contact-info-row-slide">
-                  <div className="contact-card-icon-box green" style={{ color: 'var(--accent-gold)' }}>
+                <div className="contact-info-card glass-panel">
+                  <div className="contact-card-icon-box">
                     <Github size={20} />
                   </div>
                   <div className="contact-card-details">
-                    <span className="contact-card-label">Git Endpoints</span>
+                    <span className="contact-card-label">Git Repositories</span>
                     <a 
                       href="https://github.com/adityavats21" 
                       target="_blank" 
                       rel="noopener noreferrer"
                       className="contact-card-val link"
-                      style={{ color: 'var(--accent-gold)' }}
+                      style={{ color: 'var(--accent-blue)' }}
                     >
                       github.com/adityavats21
                     </a>
                   </div>
                 </div>
 
-                <div className="contact-info-card glass-panel contact-info-row-slide">
-                  <div className="contact-card-icon-box magenta" style={{ color: 'var(--accent-gold)' }}>
+                <div className="contact-info-card glass-panel">
+                  <div className="contact-card-icon-box">
                     <Mail size={20} />
                   </div>
                   <div className="contact-card-details">
-                    <span className="contact-card-label">Signal Router (Email)</span>
+                    <span className="contact-card-label">Email Endpoint</span>
                     <a 
                       href="mailto:vatsaditya21@gmail.com"
                       className="contact-card-val link"
-                      style={{ color: 'var(--accent-gold)' }}
+                      style={{ color: 'var(--accent-blue)' }}
                     >
                       vatsaditya21@gmail.com
                     </a>
                   </div>
                 </div>
 
-                <div className="contact-info-card glass-panel contact-info-row-slide">
-                  <div className="contact-card-icon-box green" style={{ color: 'var(--accent-gold)' }}>
+                <div className="contact-info-card glass-panel">
+                  <div className="contact-card-icon-box">
                     <Download size={20} />
                   </div>
                   <div className="contact-card-details">
@@ -722,7 +639,7 @@ function App() {
                       target="_blank"
                       rel="noopener noreferrer"
                       className="contact-card-val link"
-                      style={{ color: 'var(--accent-gold)' }}
+                      style={{ color: 'var(--accent-blue)' }}
                     >
                       Download Resume (Google Drive)
                     </a>
@@ -736,9 +653,9 @@ function App() {
       </main>
 
       {/* Footer */}
-      <footer style={{ background: 'var(--bg-primary)', borderTop: '1px solid var(--glass-border)', padding: '2rem 1rem', textAlign: 'center', fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
+      <footer style={{ background: 'var(--bg-secondary)', borderTop: '1px solid var(--glass-border)', padding: '2rem 1rem', textAlign: 'center', fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
         <p style={{ margin: '0 0 0.5rem 0' }}>Designed & Engineered by <strong>Aditya Vats</strong></p>
-        <p style={{ margin: '0', opacity: 0.6, fontSize: '0.65rem' }}>Cum Laude CSE Graduate Class of 2026 // VIT-AP University</p>
+        <p style={{ margin: '0', opacity: 0.6, fontSize: '0.65rem' }}>B.Tech CSE Graduate, Class of 2026 // VIT-AP University</p>
       </footer>
     </div>
   );
