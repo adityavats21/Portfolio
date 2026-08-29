@@ -237,20 +237,20 @@ function App() {
         <section id="home" className="section animate-section">
           <div className="hero-hud-grid">
             <div className="hero-text">
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                 <span className="hero-tagline">
                   Data Scientist & ML Engineer
                 </span>
                 <h2 className="hero-title">
                   I'm Aditya Vats.
                 </h2>
-                <p style={{ color: 'var(--accent-blue)', fontSize: '1.25rem', fontWeight: '600', margin: '0' }}>
-                  Specializing in Data Science, Machine Learning, and GenAI Pipelines
+                <p className="hero-subheadline">
+                  I build data-driven predictive systems, benchmark machine learning models, and set up cloud-native data pipelines.
                 </p>
               </div>
               
-              <p className="hero-description">
-                B.Tech CSE Graduate (Completed June 2026, 8.13 CGPA) with hands-on experience in SQL, Python, Power BI/Tableau dashboarding for data analysis and business intelligence reporting. Skilled in exploratory data analysis, statistical modeling, and Python for translating large datasets into actionable insights.
+              <p className="hero-description-conversational">
+                I'm a B.Tech CSE Graduate (Class of 2026) from VIT-AP University. I specialize in translating raw datasets into actionable insights using SQL, Python, and Power BI/Tableau, deploying production-grade ML baselines and GenAI features.
               </p>
               
               <div className="hero-actions">
@@ -283,31 +283,10 @@ function App() {
               </div>
             </div>
 
-            {/* Profile Summary Card */}
-            <div>
-              <div className="hud-panel glass-panel">
-                <h3 className="hud-title">
-                  Profile Summary
-                </h3>
-                <div className="hud-readings">
-                  <div className="hud-row">
-                    <span className="hud-label">Academic:</span>
-                    <span className="hud-val-cyan">B.Tech CSE Graduate</span>
-                  </div>
-                  <div className="hud-row">
-                    <span className="hud-label">Cumulative GPA:</span>
-                    <span className="hud-val-green">8.13 / 10.0</span>
-                  </div>
-                  <div className="hud-row">
-                    <span className="hud-label">Focus Area:</span>
-                    <span className="hud-val-magenta">Data Analytics & ML</span>
-                  </div>
-                  <div className="hud-row">
-                    <span className="hud-label">Credentials:</span>
-                    <span className="hud-val-yellow">AWS Academy Graduate</span>
-                  </div>
-                </div>
-              </div>
+            {/* Asymmetric Large Photo with overlapping backplate shape */}
+            <div className="hero-photo-container">
+              <div className="hero-photo-backplate"></div>
+              <img src={heroImage} alt="Aditya Vats" className="hero-photo-image" />
             </div>
           </div>
         </section>
