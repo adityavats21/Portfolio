@@ -9,7 +9,7 @@ const Certificates = () => {
       date: 'Oct 2024',
       hours: '60 Hours',
       badge: 'Cloud Architecting',
-      verificationUrl: '/certificates/aws_cloud_architecting.pdf',
+      verificationUrl: 'https://github.com/adityavats21/Certifications/blob/main/AWS_Academy_Graduate_Cloud_Architecting.pdf',
       details: 'Comprehensive coursework in AWS design patterns, secure VPC topology, multi-tier auto-scaling instances, database storage configurations (RDS, DynamoDB, S3), and identity access control management (IAM).',
       logoGlow: '#f59e0b',
       rot: -1.5
@@ -20,7 +20,7 @@ const Certificates = () => {
       date: 'Sept 2024',
       hours: '20 Hours',
       badge: 'Cloud Foundations',
-      verificationUrl: '/certificates/aws_cloud_foundations.pdf',
+      verificationUrl: 'https://github.com/adityavats21/Certifications/blob/main/AWS_Academy_Graduate_Cloud_Foundations.pdf',
       details: 'Fundamental training covering cloud economics, core global infrastructure, billing dashboards, foundational compute services (EC2), secure bucket permissions, and service level architectures.',
       logoGlow: '#f59e0b',
       rot: 2
@@ -32,7 +32,7 @@ const Certificates = () => {
       hours: 'Simulation Complete',
       badge: 'Data Analysis & Forensic Tech',
       verificationCode: 'G5acrLy5yHFzJnEFq',
-      verificationUrl: '/certificates/deloitte_data_analytics.pdf',
+      verificationUrl: 'https://github.com/adityavats21/Certifications/blob/main/Deloitte.pdf',
       details: 'Completed practical simulations in exploratory data analysis, dataset cleanups, forensics detection algorithms, and translating transactional data logs into business insight dashboards.',
       logoGlow: '#86efac',
       rot: -1
@@ -44,7 +44,7 @@ const Certificates = () => {
       hours: 'Coursework Completed',
       badge: 'Data Tools & Analysis',
       verificationCode: '10560176',
-      verificationUrl: '/certificates/microsoft_excel.pdf',
+      verificationUrl: 'https://github.com/adityavats21/Certifications/blob/main/EXCEL.pdf',
       details: 'Mastered Excel analytics structures, lookup queries, complex pivot reports, conditional data filters, logical cell calculations, and analytics dashboard aggregation.',
       logoGlow: '#3b82f6',
       rot: 1.5
@@ -56,10 +56,32 @@ const Certificates = () => {
       hours: 'Security Assessment',
       badge: 'Cloud Security & Trust',
       verificationCode: '10467937',
-      verificationUrl: '/certificates/google_cloud_security.pdf',
+      verificationUrl: 'https://github.com/adityavats21/Certifications/blob/main/certificate.pdf',
       details: 'Evaluated cloud risk protocols, IAM access rules, VPC encryption states, security compliance models, and threat mitigation dashboards inside Google Cloud Platform.',
       logoGlow: '#ef4444',
       rot: -2
+    },
+    {
+      title: 'EY Tech Consulting Job Simulation',
+      issuer: 'EY (Ernst & Young)',
+      date: 'July 2026',
+      hours: 'Consulting Simulation',
+      badge: 'Technology Consulting',
+      verificationUrl: 'https://github.com/adityavats21/EY/blob/main/EY.pdf',
+      details: 'Completed virtual consulting simulations focusing on enterprise architecture designs, risk assessments, digital transformation schemes, and technological risk reviews for clients.',
+      logoGlow: '#f3c623',
+      rot: 1
+    },
+    {
+      title: '5-Day AI Agents Intensive Vibe Coding Course Badge',
+      issuer: 'Kaggle',
+      date: 'Jan 2025',
+      hours: 'AI Agents Challenge',
+      badge: 'Agentic AI & Prompting',
+      verificationUrl: 'https://www.kaggle.com/certification/badges/adityavats21/108',
+      details: 'Awarded for active participation and badge certification in Kaggle\'s 5-Day Vibe Coding challenge, deploying agentic workflows, prompt configurations, and automated model pipelines.',
+      logoGlow: '#22c55e',
+      rot: -1.2
     }
   ];
 
@@ -86,7 +108,8 @@ const Certificates = () => {
     if (issuer.includes('AWS')) return 'badge-aws';
     if (issuer.includes('Deloitte')) return 'badge-gate'; // pink/red
     if (issuer.includes('Microsoft')) return 'badge-core'; // blue
-    return 'badge-core'; // standard
+    if (issuer.includes('EY')) return 'badge-aws'; // gold/yellow
+    return 'badge-learning'; // green/Kaggle
   };
 
   return (
@@ -162,7 +185,7 @@ const Certificates = () => {
               className="btn-cyber-shimmer"
               style={{ width: '100%', textDecoration: 'none', fontSize: '0.7rem', padding: '0.5rem' }}
             >
-              <span>Inspect Certificate PDF</span>
+              <span>Verify Live Link</span>
               <ExternalLink size={12} />
             </a>
           </div>

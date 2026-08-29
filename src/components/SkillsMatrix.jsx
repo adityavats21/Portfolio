@@ -2,73 +2,68 @@ import React from 'react';
 import { Brain, BarChart, Code, Database, Cloud, BookOpen } from 'lucide-react';
 
 const SkillsMatrix = () => {
-  // Grouped skills with realistic proficiencies (70% - 95%)
+  // Grouped skills with tiered categories instead of arbitrary percentages
   const skillCategories = [
     {
-      name: 'Data Science & Analytics',
+      name: 'Data Analysis & BI',
       icon: <BarChart size={22} className="skill-cat-icon" style={{ color: 'var(--accent-gold)' }} />,
       skills: [
-        { name: 'Exploratory Data Analysis (EDA)', level: 92 },
-        { name: 'Data Cleaning & Preprocessing', level: 95 },
-        { name: 'Feature Engineering', level: 88 },
-        { name: 'Data Visualization (Matplotlib, Power BI)', level: 85 },
-        { name: 'Model Evaluation & Cross Validation', level: 90 }
+        { name: 'Exploratory Data Analysis (EDA)', level: 'Proficient', pct: 95 },
+        { name: 'Data Cleaning & Preprocessing', level: 'Proficient', pct: 95 },
+        { name: 'Feature Engineering', level: 'Proficient', pct: 95 },
+        { name: 'SQL Query Optimization', level: 'Proficient', pct: 95 },
+        { name: 'Excel (PivotTables, VLOOKUP/XLOOKUP)', level: 'Proficient', pct: 95 },
+        { name: 'Power BI & Tableau Dashboarding', level: 'Proficient', pct: 95 },
+        { name: 'KPI Tracking & Funnel Analysis', level: 'Working Knowledge', pct: 80 }
       ]
     },
     {
-      name: 'Machine Learning',
+      name: 'Programming & Statistics',
       icon: <Brain size={22} className="skill-cat-icon" style={{ color: 'var(--accent-gold)' }} />,
       skills: [
-        { name: 'Random Forests & Decision Trees', level: 92 },
-        { name: 'XGBoost & Boosting Models', level: 88 },
-        { name: 'Linear & Logistic Regression', level: 95 },
-        { name: 'K-Means & KNN Clustering', level: 85 },
-        { name: 'Hyperparameter Tuning', level: 90 }
+        { name: 'Python (Pandas, NumPy, Matplotlib)', level: 'Proficient', pct: 95 },
+        { name: 'Hypothesis Testing', level: 'Working Knowledge', pct: 80 },
+        { name: 'Regression Modeling', level: 'Proficient', pct: 95 },
+        { name: 'Time-Series Forecasting (LSTM, ARIMA)', level: 'Working Knowledge', pct: 80 }
       ]
     },
     {
-      name: 'Deep Learning',
-      icon: <Brain size={22} className="skill-cat-icon" style={{ color: 'var(--accent-gold)' }} />,
-      skills: [
-        { name: 'Artificial Neural Networks (ANN)', level: 84 },
-        { name: 'TensorFlow & Keras Foundations', level: 80 },
-        { name: 'Multi-Layer Perceptron (MLP)', level: 85 },
-        { name: 'Model Training Tuning (Early Stopping)', level: 82 },
-        { name: 'LLMs & RAG Architectures', level: 75 }
-      ]
-    },
-    {
-      name: 'Libraries & Core Tech',
-      icon: <Code size={22} className="skill-cat-icon" style={{ color: 'var(--accent-gold)' }} />,
-      skills: [
-        { name: 'Pandas', level: 95 },
-        { name: 'NumPy', level: 92 },
-        { name: 'Scikit-learn', level: 94 },
-        { name: 'Python (OOP & Scripting)', level: 90 },
-        { name: 'Imbalanced-learn & Joblib', level: 82 }
-      ]
-    },
-    {
-      name: 'Database & Cloud',
+      name: 'Databases & Cloud',
       icon: <Database size={22} className="skill-cat-icon" style={{ color: 'var(--accent-gold)' }} />,
       skills: [
-        { name: 'SQL Query Optimization', level: 88 },
-        { name: 'MySQL Database Management', level: 90 },
-        { name: 'AWS Cloud Foundations', level: 85 },
-        { name: 'AWS Services (EC2, S3, IAM, VPC)', level: 82 }
+        { name: 'MySQL Database Management', level: 'Proficient', pct: 95 },
+        { name: 'AWS (EC2, RDS, VPC, IAM)', level: 'Working Knowledge', pct: 80 },
+        { name: 'Google Cloud Platform (Trust & Security)', level: 'Working Knowledge', pct: 80 },
+        { name: 'Git & Version Control', level: 'Proficient', pct: 95 }
       ]
     },
     {
-      name: 'Statistics & Math',
-      icon: <BookOpen size={22} className="skill-cat-icon" style={{ color: 'var(--accent-gold)' }} />,
+      name: 'Machine & Deep Learning',
+      icon: <Brain size={22} className="skill-cat-icon" style={{ color: 'var(--accent-gold)' }} />,
       skills: [
-        { name: 'Probability & Distributions', level: 88 },
-        { name: 'Hypothesis Testing', level: 85 },
-        { name: 'Descriptive & Inferential Stats', level: 90 },
-        { name: 'Correlation & Regression Analysis', level: 92 }
+        { name: 'Random Forests & Decision Trees', level: 'Proficient', pct: 95 },
+        { name: 'XGBoost & Gradient Boosting', level: 'Proficient', pct: 95 },
+        { name: 'K-Means & KNN Clustering', level: 'Working Knowledge', pct: 80 },
+        { name: 'Hyperparameter Tuning', level: 'Proficient', pct: 95 },
+        { name: 'Artificial Neural Networks (ANN)', level: 'Working Knowledge', pct: 80 },
+        { name: 'TensorFlow & Keras Foundations', level: 'Working Knowledge', pct: 80 },
+        { name: 'LLMs & Agentic Vibe Coding', level: 'Working Knowledge', pct: 80 }
       ]
     }
   ];
+
+  const getTierColor = (tier) => {
+    switch (tier) {
+      case 'Proficient':
+        return '#f59e0b'; // Gold
+      case 'Working Knowledge':
+        return '#818cf8'; // Indigo/Purple
+      case 'Familiar':
+        return '#94a3b8'; // Slate Gray
+      default:
+        return 'var(--text-secondary)';
+    }
+  };
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', width: '100%' }}>
@@ -87,15 +82,15 @@ const SkillsMatrix = () => {
               </h3>
             </div>
 
-            {/* Skills Progress List */}
+            {/* Skills List with Tier Badges */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
               {category.skills.map((skill, skillIdx) => (
                 <div key={skillIdx} style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', fontWeight: '600', color: 'var(--text-secondary)' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', fontWeight: '600' }}>
                     <span style={{ fontFamily: 'var(--font-sans)', color: 'var(--text-primary)' }}>{skill.name}</span>
-                    <span style={{ fontFamily: 'var(--font-mono)', color: 'var(--accent-gold)' }}>{skill.level}%</span>
+                    <span style={{ fontFamily: 'var(--font-mono)', color: getTierColor(skill.level), fontWeight: '700' }}>{skill.level}</span>
                   </div>
-                  {/* Progress Bar Container */}
+                  {/* Progress Bar Container indicating width statically based on tier */}
                   <div style={{ height: '6px', background: 'var(--bg-tertiary)', borderRadius: '3px', overflow: 'hidden', position: 'relative' }}>
                     <div 
                       className="skill-bar-fill" 
@@ -103,7 +98,7 @@ const SkillsMatrix = () => {
                         height: '100%', 
                         background: 'linear-gradient(90deg, var(--accent-blue), var(--accent-gold))', 
                         borderRadius: '3px',
-                        '--progress-width': `${skill.level}%`
+                        '--progress-width': `${skill.pct}%`
                       }} 
                     />
                   </div>

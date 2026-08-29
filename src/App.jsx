@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Brain, FolderGit2, GraduationCap, Mail, ExternalLink, Activity, Send, Briefcase, Award, Home, Trophy, BookOpen, ShieldCheck, HelpCircle } from 'lucide-react';
+import { Brain, FolderGit2, GraduationCap, Mail, ExternalLink, Activity, Send, Briefcase, Award, Home, Trophy, BookOpen, ShieldCheck, HelpCircle, Download } from 'lucide-react';
 import SkillsMatrix from './components/SkillsMatrix';
 import ProjectsSandbox from './components/ProjectsSandbox';
 import EducationTimeline from './components/EducationTimeline';
@@ -50,7 +50,7 @@ function App() {
   const [contactForm, setContactForm] = useState({ name: '', email: '', subject: '', message: '' });
   const [formStatus, setFormStatus] = useState(null); // 'sending' | 'success'
 
-  const titles = ['Data Scientist', 'Machine Learning Engineer', 'Full Stack Developer'];
+  const titles = ['Data Analyst', 'Machine Learning Engineer', 'Deep Learning Specialist'];
   
   // Typewriter effect
   useEffect(() => {
@@ -333,7 +333,7 @@ function App() {
               </div>
               
               <p className="hero-description" style={{ color: 'var(--text-secondary)', lineHeight: '1.7', fontSize: '0.9rem', marginTop: '1rem' }}>
-                Undergraduate researcher specializing in exploratory data analysis, machine learning algorithms, deep neural network configurations, and cloud pipelines.
+                B.Tech CSE Graduate (Completed June 2026, 8.13 CGPA) with hands-on experience in SQL, Excel, and Power BI/Tableau dashboarding for data analysis and business intelligence reporting. Skilled in exploratory data analysis, statistical modeling, and Python for translating large datasets into actionable insights.
               </p>
               
               <div className="hero-actions social-icon-wrapper" style={{ marginTop: '2rem' }}>
@@ -341,17 +341,19 @@ function App() {
                   onClick={() => smoothScrollTo('projects')}
                   className="btn-cyber-shimmer"
                 >
-                  <span>Explore Sandbox</span>
+                  <span>Explore Projects</span>
                   <ExternalLink size={14} />
                 </button>
-                <button 
-                  onClick={() => smoothScrollTo('contact')}
+                <a 
+                  href="https://drive.google.com/file/d/12WvRTGMWMPG72ZbHVk_E-oHZ2x_IURmc/view?usp=sharing"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="btn-cyber-shimmer"
-                  style={{ background: 'transparent', borderColor: 'var(--glass-border)' }}
+                  style={{ textDecoration: 'none', background: 'transparent', borderColor: 'var(--glass-border)' }}
                 >
-                  <span>Get In Touch</span>
-                  <Mail size={14} />
-                </button>
+                  <Download size={14} />
+                  <span>Download Resume</span>
+                </a>
               </div>
 
               {/* Bounce-in Social Buttons */}
@@ -373,7 +375,7 @@ function App() {
                 <div className="hud-readings" style={{ marginTop: '1rem' }}>
                   <div className="hud-row">
                     <span className="hud-label">Academic Tier:</span>
-                    <span className="hud-val-cyan" style={{ color: 'var(--accent-gold)' }}>CSE Batch 22-26</span>
+                    <span className="hud-val-cyan" style={{ color: 'var(--accent-gold)' }}>B.Tech CSE Graduate</span>
                   </div>
                   <div className="hud-row">
                     <span className="hud-label">Cumulative GPA:</span>
@@ -381,11 +383,11 @@ function App() {
                   </div>
                   <div className="hud-row">
                     <span className="hud-label">Focus Scope:</span>
-                    <span className="hud-val-magenta" style={{ color: 'var(--accent-purple)' }}>Data Science & ML</span>
+                    <span className="hud-val-magenta" style={{ color: 'var(--accent-purple)' }}>Data Analytics & ML</span>
                   </div>
                   <div className="hud-row">
                     <span className="hud-label">System Core:</span>
-                    <span className="hud-val-yellow" style={{ color: 'var(--accent-gold)' }}>AWS Academy Grad</span>
+                    <span className="hud-val-yellow" style={{ color: 'var(--accent-gold)' }}>AWS Academy Graduate</span>
                   </div>
                 </div>
               </div>
@@ -409,7 +411,7 @@ function App() {
             {/* Mission & Vision Cards */}
             <div>
               <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', lineHeight: '1.7', margin: '0' }}>
-                I am Aditya Vats, pursuing a B.Tech in Computer Science and Engineering at VIT-AP University. Guided by industry-standard systems engineering protocols, I specialize in pre-processing raw datasets, configuring machine learning hyperparameters, evaluating deep neural networks, and deploying cloud telemetry metrics.
+                I am Aditya Vats, a B.Tech CSE Graduate (Completed June 2026) from VIT-AP University. Guided by industry-standard protocols, I specialize in exploratory data analysis, SQL query optimization, machine learning modeling, and data pipelines.
               </p>
 
               <div className="about-3d-cards">
@@ -524,15 +526,15 @@ function App() {
           {/* 4 Stat Counters */}
           <div className="achievements-stats-grid">
             <div className="stat-counter-box glass-panel" style={{ padding: '1.5rem', textAlign: 'center', display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
-              <span style={{ fontSize: '1.75rem', fontWeight: '800', fontFamily: 'var(--font-display)', color: 'var(--accent-gold)' }}>1+</span>
+              <span style={{ fontSize: '1.75rem', fontWeight: '800', fontFamily: 'var(--font-display)', color: 'var(--accent-gold)' }}>0.5+</span>
               <span style={{ fontSize: '0.65rem', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Years Experience</span>
             </div>
             <div className="stat-counter-box glass-panel" style={{ padding: '1.5rem', textAlign: 'center', display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
-              <span style={{ fontSize: '1.75rem', fontWeight: '800', fontFamily: 'var(--font-display)', color: 'var(--accent-gold)' }}>5</span>
+              <span style={{ fontSize: '1.75rem', fontWeight: '800', fontFamily: 'var(--font-display)', color: 'var(--accent-gold)' }}>7</span>
               <span style={{ fontSize: '0.65rem', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Certifications</span>
             </div>
             <div className="stat-counter-box glass-panel" style={{ padding: '1.5rem', textAlign: 'center', display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
-              <span style={{ fontSize: '1.75rem', fontWeight: '800', fontFamily: 'var(--font-display)', color: 'var(--accent-gold)' }}>3</span>
+              <span style={{ fontSize: '1.75rem', fontWeight: '800', fontFamily: 'var(--font-display)', color: 'var(--accent-gold)' }}>5</span>
               <span style={{ fontSize: '0.65rem', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Core Projects</span>
             </div>
             <div className="stat-counter-box glass-panel" style={{ padding: '1.5rem', textAlign: 'center', display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
@@ -705,6 +707,24 @@ function App() {
                       style={{ color: 'var(--accent-gold)' }}
                     >
                       vatsaditya21@gmail.com
+                    </a>
+                  </div>
+                </div>
+
+                <div className="contact-info-card glass-panel contact-info-row-slide">
+                  <div className="contact-card-icon-box green" style={{ color: 'var(--accent-gold)' }}>
+                    <Download size={20} />
+                  </div>
+                  <div className="contact-card-details">
+                    <span className="contact-card-label">Downloadable CV</span>
+                    <a 
+                      href="https://drive.google.com/file/d/12WvRTGMWMPG72ZbHVk_E-oHZ2x_IURmc/view?usp=sharing"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="contact-card-val link"
+                      style={{ color: 'var(--accent-gold)' }}
+                    >
+                      Download Resume (Google Drive)
                     </a>
                   </div>
                 </div>
