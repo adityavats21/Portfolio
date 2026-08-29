@@ -128,8 +128,8 @@ const ProjectsSandbox = () => {
                     href={proj.liveDemo} 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="btn-cyber-shimmer"
-                    style={{ textDecoration: 'none', fontSize: '0.7rem', padding: '0.5rem', width: '100%', background: 'transparent', borderColor: 'var(--glass-border)' }}
+                    className="btn-secondary"
+                    style={{ fontSize: '0.7rem', padding: '0.5rem', width: '100%' }}
                   >
                     <ExternalLinkIcon size={12} />
                     <span>Live Demo</span>
